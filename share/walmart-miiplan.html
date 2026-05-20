@@ -154,6 +154,69 @@
   }
   .btn.ghost:hover { background: rgba(0,0,0,0.04); }
 
+  /* --- DEMO VIDEO --- */
+  .demo-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: #FDFCFA;
+    border: 1px solid rgba(27,46,38,0.10);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin-top: 14px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: border-color .15s, transform .15s;
+  }
+  .demo-card:hover { border-color: #3D8C62; }
+  .demo-card:hover .play-icon { background: #2B5C4E; transform: scale(1.04); }
+  .play-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #3D8C62;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background .15s, transform .15s;
+  }
+  .play-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
+    margin-left: 3px;
+  }
+  .demo-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+  .demo-text .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.4);
+  }
+  .demo-text .title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1A3C34;
+    letter-spacing: -0.2px;
+    line-height: 1.25;
+  }
+  .demo-meta {
+    font-size: 11px;
+    color: #4B5C56;
+    text-align: right;
+    line-height: 1.4;
+    flex-shrink: 0;
+  }
+
   /* --- CONTACTS --- */
   .contacts {
     margin-top: 40px;
@@ -297,10 +360,10 @@
 <body>
 
 <div class="brand-bar">
-  <div class="brand-mark mp"><span class="mp-light">mii</span><span class="mp-bold">M</span></div>
+  <div class="brand-mark mp"><span class="mp-light">mii</span><span class="mp-bold">plan</span></div>
   <div class="brand-text">Walmart<span class="slash">//</span><span class="docroom">OGP Pick Optimization Pilot</span></div>
   <div class="brand-meta">
-    <div><strong>INTRO CALL</strong></div>
+    <div><strong>Prepared for Cal Deck</strong></div>
     <div>Prepared by MiiPlan · May 2026</div>
   </div>
 </div>
@@ -342,11 +405,22 @@
   </div>
 </div>
 
+<a class="demo-card" href="https://youtu.be/oE4HVHDQSdM" target="_blank" rel="noopener">
+  <div class="play-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+  </div>
+  <div class="demo-text">
+    <div class="label">Watch · 2 minutes</div>
+    <div class="title">Product Demo</div>
+  </div>
+  <div class="demo-meta">Opens on YouTube ↗</div>
+</a>
+
 <div class="contacts">
   <div class="contacts-label">Contacts</div>
   <div class="contacts-grid">
     <div class="contact">
-      <div class="contact-photo" style="background-image: url('walmart-miiplan/assets/rob-jensen.png');"></div>
+      <div class="contact-photo" style="background-image: url('walmart-miiplan/assets/rob-jensen.png'); background-size: contain; background-position: center bottom;"></div>
       <div class="contact-info">
         <div class="contact-name">Rob Jensen, PhD</div>
         <div class="contact-role">Co-Founder &amp; CEO · MiiPlan</div>
@@ -361,10 +435,10 @@
       </div>
     </div>
     <div class="contact">
-      <div class="contact-photo" style="background-image: url('walmart-miiplan/assets/mike-adkins.png');"></div>
+      <div class="contact-photo" style="background-image: url('walmart-miiplan/assets/mike-adkins.png'); background-size: cover;"></div>
       <div class="contact-info">
         <div class="contact-name">Mike Adkins</div>
-        <div class="contact-role">Altus KC</div>
+        <div class="contact-role">MiiPlan | Altus KC</div>
         <div class="contact-lines">
           <a href="mailto:mike@altus-kc.com">mike@altus-kc.com</a>
           <a href="tel:+19134493371">913.449.3371</a>
@@ -386,7 +460,7 @@
       <div class="footer-owner-tag">Owned and curated by Altus KC · May 2026</div>
     </div>
   </div>
-  <div>MiiPlan, Inc. — Confidential</div>
+  <div>MiiPlan, Inc + ALTUS KC LLC | Confidential</div>
 </div>
 
 </body>
