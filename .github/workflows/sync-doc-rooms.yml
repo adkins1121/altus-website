@@ -1,0 +1,33 @@
+name: Sync doc rooms to Notion
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "share/*.html"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Detect added doc room files
+        id: added
+        uses: tj-actions/changed-files@v45
+        with:
+          files: |
+            share/*.html
+            !share/*-print.html
+          separator: "\n"
+
+      - name: Sync to Notion Document Hub
+        if: steps.added.outputs.added_files != ''
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATA_SOURCE_ID: 33a5dff1-c7b3-80e6-830b-000bc7ae45c0
+          BASE_URL: https://altus-kc.com
+          ADDED_FILES: ${{ steps.added.outputs.added_files }}
+        run: node scripts/sync-doc-rooms.mjs
