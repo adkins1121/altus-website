@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiiPlan — PDF Exports</title>
+<meta name="description" content="MiiPlan deal documents — Executive Brief, 1-Page Business Case, and Phased Platform Activation, in Altus KC and Walmart brand variants.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html {
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    color: #1A3C34;
+    background: #E8EBE6;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { max-width: 980px; margin: 48px auto; padding: 0 32px 64px; }
+  h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.6px;
+    margin-bottom: 6px;
+  }
+  .sub {
+    font-size: 14px;
+    color: #4B5C56;
+    line-height: 1.55;
+    margin-bottom: 28px;
+    max-width: 640px;
+  }
+  .instructions {
+    background: #FDFCFA;
+    border: 1px solid rgba(27,46,38,0.10);
+    border-left: 3px solid #3D8C62;
+    border-radius: 0 4px 4px 0;
+    padding: 14px 18px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #2D3F39;
+    margin-bottom: 36px;
+  }
+  .instructions strong { color: #1A3C34; }
+
+  .brand-section { margin-bottom: 40px; }
+  .brand-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid currentColor;
+  }
+  .brand-section.altus { color: #1A3C34; }
+  .brand-section.walmart { color: #041E42; }
+  .brand-header h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+  .brand-header .tag {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(0,0,0,0.5);
+  }
+
+  .docs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .doc-card {
+    background: #FDFCFA;
+    border: 1px solid rgba(27,46,38,0.10);
+    border-radius: 4px;
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color .2s;
+  }
+  .brand-section.walmart .doc-card { border-color: rgba(4,30,66,0.10); }
+  .doc-card:hover { border-color: currentColor; }
+  .doc-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.4);
+  }
+  .doc-title {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: inherit;
+    letter-spacing: -0.2px;
+  }
+  .doc-desc {
+    font-size: 12px;
+    color: #4B5C56;
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+  .brand-section.walmart .doc-desc { color: #4A5972; }
+
+  .actions { display: flex; gap: 8px; margin-top: 4px; }
+  .btn {
+    flex: 1;
+    text-align: center;
+    padding: 9px 12px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    border: 1px solid;
+    transition: all .15s ease;
+    cursor: pointer;
+  }
+  .btn.primary {
+    background: #3D8C62;
+    border-color: #3D8C62;
+    color: white;
+  }
+  .btn.primary:hover { background: #2B5C4E; border-color: #2B5C4E; }
+  .brand-section.walmart .btn.primary { background: #0071DC; border-color: #0071DC; }
+  .brand-section.walmart .btn.primary:hover { background: #004F9A; border-color: #004F9A; }
+  .btn.ghost {
+    background: transparent;
+    border-color: rgba(27,46,38,0.18);
+    color: #2D3F39;
+  }
+  .brand-section.walmart .btn.ghost { border-color: rgba(4,30,66,0.18); color: #1F2D44; }
+  .btn.ghost:hover { background: rgba(0,0,0,0.04); }
+
+  @media (max-width: 720px) {
+    body { margin: 24px auto; padding: 0 20px 40px; }
+    h1 { font-size: 26px; }
+    .docs { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1>MiiPlan documents — PDF exports</h1>
+<div class="sub">Six print-ready documents: three branded for Altus KC, three for Walmart.</div>
+
+<div class="instructions">
+  <strong>How to save as PDF.</strong> Click <em>Print to PDF</em> on any card — the print dialog opens automatically once the page loads. In the dialog, set the destination to <strong>Save as PDF</strong> and click Save. Use <em>Preview</em> to view the document first.
+</div>
+
+<!-- ALTUS BRAND -->
+<div class="brand-section altus">
+  <div class="brand-header">
+    <h2>Altus KC Brand</h2>
+    <div class="tag">Evergreen · Cream · Accent green</div>
+  </div>
+  <div class="docs">
+    <div class="doc-card">
+      <div class="doc-num">01 · Brief</div>
+      <div class="doc-title">Executive Brief — OGP Pilot</div>
+      <div class="doc-desc">SCR-framed one-pager. Situation, complication, recommendation. The lead document for an executive intro.</div>
+      <div class="actions">
+        <a class="btn ghost" href="miiplan-walmart/Executive%20Brief%20-%20MiiPlan%20OGP%20Pilot.html">Preview</a>
+        <a class="btn primary" href="miiplan-walmart/Executive%20Brief%20-%20MiiPlan%20OGP%20Pilot-print.html">Print to PDF</a>
+      </div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-num">02 · Business Case</div>
+      <div class="doc-title">1-Page Business Case</div>
+      <div class="doc-desc">Problem, approach, target outcomes, investment. With a product-maturity appendix.</div>
+      <div class="actions">
+        <a class="btn ghost" href="miiplan-walmart/MiiPlan%20Business%20Case%20v2.html">Preview</a>
+        <a class="btn primary" href="miiplan-walmart/MiiPlan%20Business%20Case%20v2-print.html">Print to PDF</a>
+      </div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-num">03 · Architecture</div>
+      <div class="doc-title">Phased Platform Activation</div>
+      <div class="doc-desc">The roadmap stack — foundation today, supply-chain and multi-firm tomorrow. Every floor earns activation.</div>
+      <div class="actions">
+        <a class="btn ghost" href="miiplan-walmart/MiiPlan%20Platform%20Architecture.html">Preview</a>
+        <a class="btn primary" href="miiplan-walmart/MiiPlan%20Platform%20Architecture-print.html">Print to PDF</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WALMART BRAND -->
+<div class="brand-section walmart">
+  <div class="brand-header">
+    <h2>Walmart Brand</h2>
+    <div class="tag">Walmart Blue · Navy · Spark yellow</div>
+  </div>
+  <div class="docs">
+    <div class="doc-card">
+      <div class="doc-num">01 · Brief</div>
+      <div class="doc-title">Executive Brief — OGP Pilot</div>
+      <div class="doc-desc">Same content, restyled with Walmart Blue and Spark yellow accents for an internal-facing read.</div>
+      <div class="actions">
+        <a class="btn ghost" href="miiplan-walmart/walmart/Executive%20Brief%20-%20MiiPlan%20OGP%20Pilot.html">Preview</a>
+        <a class="btn primary" href="miiplan-walmart/walmart/Executive%20Brief%20-%20MiiPlan%20OGP%20Pilot-print.html">Print to PDF</a>
+      </div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-num">02 · Business Case</div>
+      <div class="doc-title">1-Page Business Case</div>
+      <div class="doc-desc">Walmart-branded 1-pager with the product maturity appendix.</div>
+      <div class="actions">
+        <a class="btn ghost" href="miiplan-walmart/walmart/MiiPlan%20Business%20Case%20v2.html">Preview</a>
+        <a class="btn primary" href="miiplan-walmart/walmart/MiiPlan%20Business%20Case%20v2-print.html">Print to PDF</a>
+      </div>
+    </div>
+    <div class="doc-card">
+      <div class="doc-num">03 · Architecture</div>
+      <div class="doc-title">Phased Platform Activation</div>
+      <div class="doc-desc">The platform roadmap, in this partner's palette. Identical content and structure across versions.</div>
+      <div class="actions">
+        <a class="btn ghost" href="miiplan-walmart/walmart/MiiPlan%20Platform%20Architecture.html">Preview</a>
+        <a class="btn primary" href="miiplan-walmart/walmart/MiiPlan%20Platform%20Architecture-print.html">Print to PDF</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
