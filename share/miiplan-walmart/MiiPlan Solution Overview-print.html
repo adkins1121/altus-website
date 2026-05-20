@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiiPlan — Solution Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  @page { size: letter; margin: 0.5in 0.6in; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --evergreen: #1A3C34;
+    --accent: #3D8C62;
+    --accent-lt: #5DAE82;
+    --cream: #F6F3EE;
+    --warm-white: #FDFCFA;
+    --mid: #2B5C4E;
+    --deep: #0b1c13;
+    --border: rgba(27,46,38,0.10);
+    --border-accent: rgba(61,140,98,0.20);
+    --text-2: #4B5C56;
+    --teal: #087E80;
+    --amber: #B45309;
+  }
+
+  html {
+    font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--evergreen);
+    background: #E8EBE6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body { max-width: 8.5in; margin: 36px auto; padding: 0; }
+
+  .page {
+    background: white;
+    padding: 44px 52px 36px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 8px 28px rgba(0,0,0,0.07);
+    border-radius: 2px;
+    position: relative;
+  }
+
+  @media print {
+    html { background: white; font-size: 12.5px; }
+    body { margin: 0; max-width: none; }
+    .page { box-shadow: none; padding: 0; border-radius: 0; }
+    .page::after { display: none; }
+  }
+
+  /* --- HEADER --- */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 22px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--evergreen);
+  }
+  .logo {
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .logo-light { font-weight: 300; color: var(--evergreen); }
+  .logo-bold { font-weight: 800; color: var(--accent); }
+  .logo-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 2px;
+  }
+  .meta {
+    text-align: right;
+    font-size: 11px;
+    color: var(--text-2);
+    line-height: 1.5;
+  }
+  .doc-type {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: white;
+    background: var(--accent);
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-bottom: 4px;
+  }
+
+  /* --- TITLE --- */
+  .title-block { margin-bottom: 22px; }
+  .title-block h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--evergreen);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .title-block .lede {
+    font-size: 13.5px;
+    color: var(--text-2);
+    line-height: 1.55;
+    max-width: 90%;
+  }
+  .title-block .lede strong { color: var(--evergreen); font-weight: 600; }
+
+  /* --- SECTION LABELS --- */
+  .section-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    margin-top: 24px;
+  }
+  .section-label:first-of-type { margin-top: 0; }
+
+  /* --- DNA GRID --- */
+  .dna-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 4px;
+  }
+  .dna-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 16px;
+    position: relative;
+  }
+  .dna-card-num {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--cream);
+    letter-spacing: -1px;
+  }
+  .dna-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--evergreen);
+    margin-bottom: 2px;
+    letter-spacing: -0.1px;
+    padding-right: 30px;
+  }
+  .dna-card .dna-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .dna-card p {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #2D3F39;
+    margin-bottom: 0;
+  }
+  .dna-card .vs {
+    font-size: 11px;
+    color: var(--text-2);
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--border);
+    font-style: italic;
+  }
+  .dna-card .vs strong { color: var(--mid); font-style: normal; font-weight: 600; }
+
+  /* --- PHASES --- */
+  .phases {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    margin-top: 4px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .phase {
+    padding: 16px 16px 18px;
+    position: relative;
+    background: var(--warm-white);
+  }
+  .phase + .phase { border-left: 1px solid var(--border); }
+  .phase-1 { background: rgba(61,140,98,0.06); }
+  .phase-2 { background: var(--warm-white); }
+  .phase-3 { background: var(--cream); }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .phase-number {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: white;
+    background: var(--evergreen);
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+  .phase-1 .phase-number { background: var(--accent); }
+  .phase-status {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .phase-1 .phase-status { color: var(--accent); }
+  .phase-2 .phase-status { color: var(--amber); }
+  .phase-3 .phase-status { color: var(--text-2); }
+
+  .phase h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--evergreen);
+    line-height: 1.25;
+    margin-bottom: 4px;
+    letter-spacing: -0.2px;
+  }
+  .phase .layman {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #2D3F39;
+    margin-bottom: 8px;
+  }
+  .phase .layman strong { color: var(--evergreen); font-weight: 600; }
+  .phase ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .phase li {
+    font-size: 11.5px;
+    line-height: 1.4;
+    color: var(--text-2);
+    padding-left: 12px;
+    position: relative;
+    margin-bottom: 3px;
+  }
+  .phase li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 4px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .phase-3 li::before { background: var(--text-2); }
+
+  /* --- HORIZON BAR --- */
+  .horizon-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 0;
+    border-radius: 0 0 4px 4px;
+    overflow: hidden;
+  }
+  .horizon-segment {
+    height: 6px;
+    text-align: center;
+    font-size: 9px;
+    color: white;
+  }
+  .horizon-1 { background: var(--accent); }
+  .horizon-2 { background: var(--mid); }
+  .horizon-3 { background: var(--evergreen); }
+
+  /* --- POSITIONING CALLOUT --- */
+  .position-box {
+    background: var(--evergreen);
+    color: white;
+    border-radius: 4px;
+    padding: 18px 24px 20px;
+    margin-top: 18px;
+  }
+  .position-headline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  .position-headline .mp { color: var(--accent-lt); font-weight: 800; }
+  .position-headline .accent { color: var(--accent-lt); }
+  .position-box p {
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.85);
+    margin: 0;
+    max-width: 95%;
+  }
+  .position-box strong { color: white; font-weight: 600; }
+
+  /* --- FOOTER --- */
+  .footer {
+    margin-top: 18px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-2);
+  }
+  .footer strong { color: var(--evergreen); }
+
+  .page::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 0 0 2px 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="logo"><span class="logo-light">mii</span><span class="logo-bold">plan</span></div>
+      <div class="logo-sub">The Intelligence Layer for Physical Operations</div>
+    </div>
+    <div class="meta">
+      <div class="doc-type">Solution Overview</div>
+      <div>May 2026</div>
+      <div>Prepared for Walmart OGP</div>
+    </div>
+  </div>
+
+  <!-- TITLE -->
+  <div class="title-block">
+    <h1>How MiiPlan is different — in plain English.</h1>
+    <p class="lede">
+      Pick-path optimization sounds simple. It isn't. Below is what makes MiiPlan's approach <strong>fundamentally different from every other vendor in the space</strong> — and the phased product roadmap that turns Walmart's pilot into a long-term operating advantage.
+    </p>
+  </div>
+
+  <!-- DNA -->
+  <div class="section-label">The DNA — Four Things That Make This Different</div>
+
+  <div class="dna-grid">
+
+    <div class="dna-card">
+      <div class="dna-card-num">01</div>
+      <span class="dna-tag">The Math</span>
+      <h3>It's not Waze. It's air traffic control.</h3>
+      <p>Waze finds the best route for <strong>one car</strong>. MiiPlan finds the best routes for <strong>100 orders at once</strong> — all moving through the same aisles, sharing the same shelves, dodging each other in real time. The math is combinatorially harder. Most competitors don't even attempt it.</p>
+      <div class="vs"><strong>Competitors:</strong> Single-order, heuristic routing.</div>
+    </div>
+
+    <div class="dna-card">
+      <div class="dna-card-num">02</div>
+      <span class="dna-tag">The Setup</span>
+      <h3>2 days to model a store. Not 6 weeks.</h3>
+      <p>Other vendors send engineers to CAD-scan each warehouse — weeks of work per facility. MiiPlan built a proprietary <strong>digital twin platform</strong> that ingests a CSV of aisle IDs and produces a working replica of the store in 48 hours. This is the architectural unlock for scaling to 4,600 stores.</p>
+      <div class="vs"><strong>Competitors:</strong> CAD-based modeling, 4–8 weeks per facility.</div>
+    </div>
+
+    <div class="dna-card">
+      <div class="dna-card-num">03</div>
+      <span class="dna-tag">The Proof</span>
+      <h3>Show me what would have happened.</h3>
+      <p>Before Walmart changes anything in the real stores, MiiPlan replays the <strong>last 90 days of OGP picks against the optimized engine</strong> — using Walmart's own historical data. Walmart sees exactly what the savings would have been before signing anything. No competitor offers this.</p>
+      <div class="vs"><strong>Competitors:</strong> Trust us, run a 6-month pilot, hope it works.</div>
+    </div>
+
+    <div class="dna-card">
+      <div class="dna-card-num">04</div>
+      <span class="dna-tag">The Integration</span>
+      <h3>We make your existing WMS smarter.</h3>
+      <p>MiiPlan does not replace Walmart's warehouse management system. It sits <strong>above it as an API layer</strong> — like Stripe sits above Visa. The WMS keeps running. The picker app keeps running. MiiPlan just sequences the route smarter. Per-store on/off toggle.</p>
+      <div class="vs"><strong>Competitors:</strong> Manhattan / Blue Yonder rip-and-replace, $500K–$2M, 6–18 months.</div>
+    </div>
+
+  </div>
+
+  <!-- PHASED ROADMAP -->
+  <div class="section-label">The Phased Roadmap — From Smart Routes to a Self-Driving Warehouse</div>
+
+  <div class="phases">
+
+    <div class="phase phase-1">
+      <div class="phase-header">
+        <span class="phase-number">Phase 1</span>
+        <span class="phase-status">● Built &amp; proven</span>
+      </div>
+      <h3>Smart Routes</h3>
+      <p class="layman">The system tells every picker the best path through the store for the orders they're picking right now. <strong>Proven across 217K line items: -20% travel, +13% throughput.</strong></p>
+      <ul>
+        <li>Multi-order batch optimization</li>
+        <li>Digital twin per store</li>
+        <li>Real-time picker app integration</li>
+        <li>API overlay on existing WMS</li>
+      </ul>
+    </div>
+
+    <div class="phase phase-2">
+      <div class="phase-header">
+        <span class="phase-number">Phase 2</span>
+        <span class="phase-status">○ Building now</span>
+      </div>
+      <h3>Smart Advisor</h3>
+      <p class="layman">The system stops waiting to be asked. It tells store managers <strong>what to change — before they change it.</strong> "Move these 12 SKUs and you'll save another 8% travel." Proves the answer before the action.</p>
+      <ul>
+        <li>Slotting recommendations</li>
+        <li>What-if simulation for ops managers</li>
+        <li>Replay against historical data</li>
+        <li>Surfaces insights, not just routes</li>
+      </ul>
+    </div>
+
+    <div class="phase phase-3">
+      <div class="phase-header">
+        <span class="phase-number">Phase 3</span>
+        <span class="phase-status">◐ On the horizon</span>
+      </div>
+      <h3>Self-Driving Warehouse</h3>
+      <p class="layman">The system runs itself. It <strong>notices disruptions, re-optimizes without being asked,</strong> and coordinates pickers (or robots) as a single fleet. The autopilot for physical operations.</p>
+      <ul>
+        <li>Autonomous re-optimization</li>
+        <li>Multi-agent coordination (humans + AMRs)</li>
+        <li>Disruption detection &amp; response</li>
+        <li>Robotics-ready architecture</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="horizon-bar">
+    <div class="horizon-segment horizon-1"></div>
+    <div class="horizon-segment horizon-2"></div>
+    <div class="horizon-segment horizon-3"></div>
+  </div>
+
+  <!-- POSITIONING -->
+  <div class="position-box">
+    <div class="position-headline">
+      <span class="mp">MiiPlan</span> is to optimization what <span class="accent">Stripe</span> is to payments.
+    </div>
+    <p>Stripe didn't build a new payment network. It built a developer layer above Visa and Mastercard that made them usable for the modern web. <strong>MiiPlan sits above optimization engines and warehouse systems</strong> — making them usable for store operators. If a better solver appears (NVIDIA cuOpt, Google OR-Tools), MiiPlan plugs into it. The value is the intelligence layer.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>
+      <strong>Rob Jensen, PhD</strong> — Co-Founder &amp; CEO &nbsp;·&nbsp; rob@miiplan.com &nbsp;·&nbsp; 402-943-9218
+    </div>
+    <div style="text-align: right;">
+      MiiPlan, Inc. — Confidential &nbsp;·&nbsp; with support from Altus KC
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Auto-open print dialog once fonts and layout are ready
+  (async function () {
+    try {
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+    } catch (e) {}
+    setTimeout(function () { window.print(); }, 500);
+  })();
+</script>
+</body>
+</html>
