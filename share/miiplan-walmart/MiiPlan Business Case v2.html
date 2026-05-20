@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiiPlan — 1-Page Business Case</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: letter; margin: 0.6in 0.7in; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --evergreen: #1A3C34;
+    --accent: #3D8C62;
+    --cream: #F6F3EE;
+    --warm-white: #FDFCFA;
+    --mid: #2B5C4E;
+    --border: rgba(27,46,38,0.10);
+    --border-accent: rgba(61,140,98,0.20);
+    --text-2: #4B5C56;
+  }
+
+  html {
+    font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--evergreen);
+    background: #E8EBE6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body { max-width: 8.5in; margin: 36px auto; padding: 0; }
+
+  .page {
+    background: white;
+    padding: 48px 56px 40px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 8px 28px rgba(0,0,0,0.07);
+    border-radius: 2px;
+    position: relative;
+  }
+
+  @media print {
+    html { background: white; font-size: 13px; }
+    body { margin: 0; max-width: none; }
+    .page { box-shadow: none; padding: 0; border-radius: 0; }
+    .page::after { display: none; }
+  }
+
+  /* --- HEADER --- */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--evergreen);
+  }
+  .logo {
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .logo-light { font-weight: 300; color: var(--evergreen); }
+  .logo-bold { font-weight: 800; color: var(--accent); }
+  .logo-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 2px;
+  }
+  .meta {
+    text-align: right;
+    font-size: 11.5px;
+    color: var(--text-2);
+    line-height: 1.5;
+  }
+  .conf-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: white;
+    background: var(--evergreen);
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-bottom: 4px;
+  }
+
+  /* --- HEADLINE --- */
+  .headline-block {
+    background: var(--cream);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .headline-block h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--evergreen);
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+  }
+  .headline-summary {
+    font-size: 13.5px;
+    color: var(--text-2);
+    line-height: 1.55;
+  }
+  .headline-summary strong { color: var(--evergreen); font-weight: 600; }
+  .developed-by {
+    font-size: 11px;
+    color: var(--mid);
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* --- SECTION LABELS --- */
+  .section-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+    margin-top: 24px;
+  }
+  .section-label:first-of-type { margin-top: 0; }
+  .section-label.problem { color: #B45309; }
+  .section-label.approach { color: var(--accent); }
+  .section-label.outcomes { color: var(--accent); }
+  .section-label.investment { color: var(--evergreen); }
+
+  /* --- CONTENT --- */
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--evergreen);
+    margin-bottom: 8px;
+    letter-spacing: -0.2px;
+  }
+
+  p { margin-bottom: 10px; color: #2D3F39; font-size: 13.5px; line-height: 1.6; }
+  strong { font-weight: 600; color: var(--evergreen); }
+
+  /* --- KPI INFOGRAPHIC --- */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 12px 0 8px;
+  }
+  .kpi-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 14px 14px 12px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .kpi-card.fleet {
+    background: var(--evergreen);
+    border-color: var(--evergreen);
+    border-top-color: var(--accent);
+  }
+  .kpi-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-2);
+  }
+  .kpi-card.fleet .kpi-label { color: rgba(255,255,255,0.55); }
+  .kpi-value {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -1.2px;
+    color: var(--accent);
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-top: 2px;
+  }
+  .kpi-card.fleet .kpi-value { color: white; }
+  .kpi-value .arrow {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .kpi-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--evergreen);
+    line-height: 1.3;
+    margin-top: 4px;
+  }
+  .kpi-card.fleet .kpi-name { color: white; }
+  .kpi-baseline {
+    font-size: 10.5px;
+    color: var(--text-2);
+    line-height: 1.3;
+    margin-top: 2px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(27,46,38,0.06);
+  }
+  .kpi-card.fleet .kpi-baseline {
+    color: rgba(255,255,255,0.7);
+    border-top-color: rgba(255,255,255,0.12);
+  }
+  .kpi-bar {
+    height: 4px;
+    background: rgba(27,46,38,0.08);
+    border-radius: 2px;
+    position: relative;
+    margin-top: 6px;
+    overflow: hidden;
+  }
+  .kpi-bar-fill {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+  .kpi-card.fleet .kpi-bar { background: rgba(255,255,255,0.12); }
+  .kpi-card.fleet .kpi-bar-fill { background: var(--accent); }
+
+  /* --- OUTCOMES TABLE (legacy, unused) --- */
+  .outcomes-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 12px 0;
+  }
+  .outcomes-table th {
+    text-align: left;
+    font-weight: 700;
+    padding: 8px 14px;
+    background: var(--cream);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--mid);
+    border-bottom: 1px solid var(--border);
+  }
+  .outcomes-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid rgba(27,46,38,0.06);
+    line-height: 1.4;
+    color: #2D3F39;
+  }
+  .outcomes-table td:first-child { font-weight: 600; color: var(--evergreen); }
+  .outcomes-table .target { color: var(--accent); font-weight: 700; }
+
+  /* --- INVESTMENT BOX --- */
+  .investment-box {
+    background: var(--cream);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+    padding: 14px 20px;
+    margin: 12px 0;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #2D3F39;
+  }
+
+  /* --- TWO COL --- */
+  .two-col { display: flex; gap: 24px; margin: 10px 0; }
+  .two-col > div { flex: 1; }
+
+  ul { margin: 6px 0 10px 18px; font-size: 13px; color: #2D3F39; }
+  li { margin-bottom: 3px; line-height: 1.5; }
+
+  /* --- APPENDIX --- */
+  .appendix-divider {
+    margin: 32px -56px 24px;
+    padding: 0 56px;
+    border-top: 1px dashed rgba(27,46,38,0.18);
+    position: relative;
+  }
+  .appendix-divider::after {
+    content: 'APPENDIX';
+    position: absolute;
+    top: -7px;
+    left: 56px;
+    background: white;
+    padding: 0 10px 0 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    color: var(--text-2);
+  }
+  .appendix-intro {
+    font-size: 12.5px;
+    color: var(--text-2);
+    line-height: 1.55;
+    margin-bottom: 14px;
+    max-width: 580px;
+  }
+  .appendix-intro strong { color: var(--evergreen); font-weight: 600; }
+
+  /* Maturity roadmap */
+  .maturity-track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 14px 0 10px;
+    position: relative;
+  }
+  .maturity-stage {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+  }
+  .maturity-stage.now {
+    background: var(--cream);
+    border-color: var(--border-accent);
+  }
+  .maturity-stage.next {
+    background: white;
+  }
+  .maturity-stage.future {
+    background: white;
+    border-style: dashed;
+    border-color: rgba(27,46,38,0.18);
+  }
+  .stage-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .stage-status .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+  }
+  .maturity-stage.now .stage-status { color: var(--accent); }
+  .maturity-stage.now .stage-status .dot { background: var(--accent); box-shadow: 0 0 0 3px rgba(61,140,98,0.15); }
+  .maturity-stage.next .stage-status { color: #B45309; }
+  .maturity-stage.next .stage-status .dot { background: #D97706; }
+  .maturity-stage.future .stage-status { color: var(--text-2); }
+  .maturity-stage.future .stage-status .dot { background: rgba(27,46,38,0.25); }
+  .stage-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--evergreen);
+    line-height: 1.25;
+    letter-spacing: -0.2px;
+  }
+  .stage-desc {
+    font-size: 11.5px;
+    color: var(--text-2);
+    line-height: 1.45;
+  }
+  .stage-value {
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid rgba(27,46,38,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .stage-value-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-2);
+  }
+  .stage-value-text {
+    font-size: 11.5px;
+    color: var(--evergreen);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .maturity-stage.future .stage-value-text { color: var(--mid); font-weight: 500; }
+
+  /* Value compounding strip */
+  .value-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .value-tick {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 8px 12px;
+    background: linear-gradient(90deg, rgba(61,140,98,0.06), transparent);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+  }
+  .value-tick.t2 { background: linear-gradient(90deg, rgba(61,140,98,0.10), transparent); }
+  .value-tick.t3 { background: linear-gradient(90deg, rgba(61,140,98,0.16), transparent); }
+  .value-tick-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.5px;
+  }
+  .value-tick-text {
+    font-size: 10.5px;
+    color: var(--text-2);
+    line-height: 1.35;
+  }
+
+  /* --- FOOTER --- */
+  .footer {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-2);
+  }
+  .footer strong { color: var(--evergreen); }
+
+  /* --- BOTTOM ACCENT --- */
+  .page::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 0 0 2px 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="logo"><span class="logo-light">mii</span><span class="logo-bold">plan</span></div>
+      <div class="logo-sub">Pick-Path Optimization</div>
+    </div>
+    <div class="meta">
+      <div class="conf-badge">Confidential</div>
+      <div>May 2026</div>
+      <div>Prepared for Walmart OGP</div>
+    </div>
+  </div>
+
+  <!-- HEADLINE BLOCK -->
+  <div class="headline-block">
+    <h1>OGP pickers walk 20% more than they need to — every shift, every store. A 40-store pilot proves the fix.</h1>
+    <div class="headline-summary">
+      Because <strong>OGP pick routing hasn't been optimized for multi-order batching</strong>, Walmart should <strong>run a controlled 40-store pilot with MiiPlan by Q3 2026</strong>. The pilot recovers <strong>$331M+ in annual labor waste</strong> at full fleet scale and lifts <strong>picker productivity 13%</strong> — with no infrastructure changes and no capital at risk.
+    </div>
+    <div class="developed-by">Developed by: Rob Jensen, PhD (MiiPlan) &amp; Cal Deck (Walmart Supply Chain Optimization)</div>
+  </div>
+
+  <!-- PROBLEM -->
+  <div class="section-label problem">The Problem</div>
+  <h2>Every day, 4,600 stores run suboptimal pick routes — and the cost compounds at scale.</h2>
+  <p>
+    OGP pick sequencing today handles <strong>one order at a time</strong>. No system optimizes across multiple orders simultaneously. Associates walk more than necessary every shift. At <strong>$72K in recoverable savings per store annually</strong>, the fleet-wide gap is <strong>$331M+</strong>.
+  </p>
+  <p>
+    Walmart has invested in WMS infrastructure, but OGP teams still can't minimize picker travel because <strong>single-order routing ignores the combinatorial problem</strong>. The gap grows with every increase in OGP volume.
+  </p>
+
+  <!-- RECOMMENDED APPROACH -->
+  <div class="section-label approach">Recommended Approach</div>
+  <h2>An API overlay that makes the existing WMS smarter — proven across 217K line items.</h2>
+  <div class="two-col">
+    <div>
+      <ul>
+        <li><strong>100-order batch optimization</strong> — multi-point constrained routing, not single-order heuristics</li>
+        <li><strong>2-day facility setup</strong> — proprietary digital twin from a CSV, not weeks of CAD</li>
+        <li><strong>Replay/simulation</strong> — proves ROI against Walmart's own historical data before any commitment</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><strong>Zero WMS disruption</strong> — API layer with per-store on/off toggle</li>
+        <li><strong>Rigorous pilot design</strong> — 20 test / 20 control stores, randomized</li>
+        <li><strong>Walmart-native expertise</strong> — Rob Jensen holds a Walton College PhD and spent 13 years at Walmart</li>
+      </ul>
+    </div>
+  </div>
+  <p style="font-size: 12.5px; color: var(--mid);">
+    Validated in a 3-month, 217,371 line-item case study — meets and exceeds requirements for an OGP pick-path optimization pilot.
+  </p>
+
+  <!-- TARGET OUTCOMES -->
+  <div class="section-label outcomes">Target Outcomes</div>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Travel Distance</div>
+      <div class="kpi-value"><span class="arrow">↓</span>20%</div>
+      <div class="kpi-name">Less walking per pick</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width: 80%; background: rgba(180,83,9,0.25); right: 0; left: auto;"></div></div>
+      <div class="kpi-baseline">Heuristic routing baseline</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Picker Productivity</div>
+      <div class="kpi-value"><span class="arrow">↑</span>13%</div>
+      <div class="kpi-name">More cases per hour</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width: 65%;"></div></div>
+      <div class="kpi-baseline">Same headcount, more output</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Per-Store Savings</div>
+      <div class="kpi-value">$72K</div>
+      <div class="kpi-name">Annual labor recovery</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width: 100%;"></div></div>
+      <div class="kpi-baseline">Avg. validated in case study</div>
+    </div>
+    <div class="kpi-card fleet">
+      <div class="kpi-label">Fleet-Wide (4,600 stores)</div>
+      <div class="kpi-value">$265M</div>
+      <div class="kpi-name">Annual savings to Walmart (80%)</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width: 100%;"></div></div>
+      <div class="kpi-baseline">$66M MiiPlan fee (20% outcome-based)</div>
+    </div>
+  </div>
+
+  <!-- REQUIRED INVESTMENT -->
+  <div class="section-label investment">Required Investment</div>
+  <div class="investment-box">
+    <strong>Pricing: 20% of measured labor savings — nothing else.</strong> If the pilot doesn't reduce travel or improve throughput, Walmart pays $0. No license fees. No implementation costs. No minimum commitment. Walmart keeps 80% of every dollar saved.<br><br>
+    <strong>From Walmart:</strong> API access to OGP picker app + CSV of aisle location IDs for 40 stores. One technical contact for integration. 3-month commitment window.<br>
+    <strong>From MiiPlan:</strong> Full compute infrastructure, digital twin modeling, optimization engine, and measurement reporting. All provided at MiiPlan's cost.
+  </div>
+
+  <!-- APPENDIX: PRODUCT MATURITY PATH -->
+  <div class="appendix-divider"></div>
+  <div class="section-label" style="margin-top: 0;">Product Maturity Path</div>
+  <h2>Pick-path is the wedge. Each stage builds on the same engine.</h2>
+  <p class="appendix-intro">
+    The same optimization engine and digital twin behind the OGP pilot extends into <strong>slotting, what-if simulation, and autonomous coordination</strong> — turning one cost-saver into a fleet-wide capability. Walmart's pilot investment compounds; MiiPlan's pricing stays outcome-based.
+  </p>
+
+  <div class="maturity-track">
+    <div class="maturity-stage now">
+      <div class="stage-status"><span class="dot"></span>Built &amp; Proven — Today</div>
+      <div class="stage-title">Core Optimization + Digital Twin</div>
+      <div class="stage-desc">Multi-point constrained routing, 100-order batching, 2-day facility modeling, API-first delivery. Validated at 20% travel reduction.</div>
+      <div class="stage-value">
+        <div class="stage-value-label">Walmart Value</div>
+        <div class="stage-value-text">Recover $72K/store — the OGP pilot wedge</div>
+      </div>
+    </div>
+    <div class="maturity-stage next">
+      <div class="stage-status"><span class="dot"></span>Building Now — 6–12 mo</div>
+      <div class="stage-title">Predictive Layer</div>
+      <div class="stage-desc">Slotting recommendations, what-if simulation, batch coordination. The engine stops waiting for a request and starts surfacing the next move.</div>
+      <div class="stage-value">
+        <div class="stage-value-label">Walmart Value</div>
+        <div class="stage-value-text">Optimize inventory placement before peak; simulate staffing shifts</div>
+      </div>
+    </div>
+    <div class="maturity-stage future">
+      <div class="stage-status"><span class="dot"></span>Roadmap — 12–24 mo</div>
+      <div class="stage-title">Autonomous Coordination</div>
+      <div class="stage-desc">The system detects disruption, re-optimizes without human triggers, and coordinates human and robotic pickers.</div>
+      <div class="stage-value">
+        <div class="stage-value-label">Walmart Value</div>
+        <div class="stage-value-text">Self-managing fulfillment across OGP and AMR fleets</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="value-strip">
+    <div class="value-tick">
+      <div class="value-tick-num">1×</div>
+      <div class="value-tick-text"><strong>Pick-path savings.</strong> $265M annual fleet-wide labor recovery.</div>
+    </div>
+    <div class="value-tick t2">
+      <div class="value-tick-num">2–3×</div>
+      <div class="value-tick-text"><strong>+ Slotting &amp; batching.</strong> More throughput — same engine, new constraints.</div>
+    </div>
+    <div class="value-tick t3">
+      <div class="value-tick-num">5×+</div>
+      <div class="value-tick-text"><strong>+ Autonomous layer.</strong> Re-optimization across stores, DCs, robotics.</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>
+      <strong>Rob Jensen, PhD</strong> — Co-Founder &amp; CEO<br>
+      rob@miiplan.com &nbsp;|&nbsp; 402-943-9218
+    </div>
+    <div style="text-align: right;">
+      MiiPlan, Inc. — Confidential<br>
+      Prepared with support from Altus KC
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

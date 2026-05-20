@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiiPlan — Phased Platform Activation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  @page { size: letter; margin: 0.5in 0.6in; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --wm-navy: #041E42;
+    --wm-blue: #0071DC;
+    --wm-blue-lt: #3B8AE6;
+    --wm-surface: #F4F8FD;
+    --warm-white: #FBFCFE;
+    --wm-blue-dk: #004F9A;
+    --border: rgba(4,30,66,0.10);
+    --border-strong: rgba(4,30,66,0.20);
+    --border-faint: rgba(4,30,66,0.06);
+    --text-2: #4A5972;
+    --amber: #B88200;
+    --amber-soft: #FFF3CC;
+  }
+
+  html {
+    font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--wm-navy);
+    background: #E8EBE6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body { max-width: 8.5in; margin: 36px auto; padding: 0; }
+
+  .page {
+    background: white;
+    padding: 44px 52px 36px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 8px 28px rgba(0,0,0,0.07);
+    border-radius: 2px;
+    position: relative;
+  }
+
+  @media print {
+    html { background: white; font-size: 12px; }
+    body { margin: 0; max-width: none; }
+    .page { box-shadow: none; padding: 0; border-radius: 0; }
+    .page::after { display: none; }
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* --- HEADER --- */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 22px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--wm-navy);
+  }
+  .logo {
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .logo-light { font-weight: 300; color: var(--wm-navy); }
+  .logo-bold { font-weight: 800; color: var(--wm-blue); }
+  .logo-sub {
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--wm-blue);
+    margin-top: 2px;
+  }
+  .meta {
+    text-align: right;
+    font-size: 11px;
+    color: var(--text-2);
+    line-height: 1.5;
+  }
+  .doc-type {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: white;
+    background: var(--wm-blue);
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-bottom: 4px;
+  }
+
+  /* --- TITLE --- */
+  .title-block { margin-bottom: 18px; }
+  .title-block h1 {
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--wm-navy);
+    letter-spacing: -0.4px;
+    margin-bottom: 6px;
+  }
+  .title-block .lede {
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.55;
+    max-width: 92%;
+  }
+  .title-block .lede strong { color: var(--wm-navy); font-weight: 600; }
+
+  /* --- VALUE CURVE --- */
+  .value-strip {
+    background: var(--wm-surface);
+    border-radius: 4px;
+    padding: 16px 20px 14px;
+    margin-bottom: 18px;
+    border: 1px solid var(--border);
+  }
+  .value-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .value-head .label {
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--wm-blue);
+  }
+  .value-head .axis {
+    font-size: 10px;
+    color: var(--text-2);
+    font-style: italic;
+  }
+  .curve {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    align-items: flex-end;
+    height: 110px;
+    margin-bottom: 6px;
+  }
+  .bar {
+    background: var(--warm-white);
+    border-radius: 2px 2px 0 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    padding: 6px 4px 4px;
+    text-align: center;
+  }
+  .bar .v {
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--wm-navy);
+    line-height: 1;
+  }
+  .bar .v-sub {
+    font-size: 8.5px;
+    color: var(--text-2);
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+  }
+  .bar.live {
+    background: var(--wm-blue);
+    border-color: var(--wm-blue);
+    height: 32%;
+  }
+  .bar.live .v, .bar.live .v-sub { color: white; }
+  .bar.live .v-sub { color: rgba(255,255,255,0.85); }
+  .bar.next {
+    background: rgba(0,113,220,0.25);
+    border-color: rgba(0,113,220,0.45);
+    height: 48%;
+  }
+  .bar.f2 { height: 68%; background: rgba(0,113,220,0.18); border-color: rgba(0,113,220,0.30); }
+  .bar.f3 { height: 86%; background: rgba(0,113,220,0.12); border-color: rgba(0,113,220,0.22); }
+  .bar.f4 { height: 96%; background: rgba(0,113,220,0.08); border-color: var(--border); }
+  .bar.f5 { height: 100%; background: var(--warm-white); border: 1px dashed var(--border-strong); }
+
+  .curve-labels {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border-faint);
+  }
+  .curve-labels .cl {
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--text-2);
+    line-height: 1.3;
+  }
+  .curve-labels .cl.live { color: var(--wm-blue); }
+
+  /* --- STACK --- */
+  .stack {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 38px 1fr 1.4fr 110px;
+    gap: 14px;
+    align-items: center;
+    padding: 11px 14px;
+    border-top: 1px solid var(--border-faint);
+  }
+  .row:first-child { border-top: none; }
+
+  .step {
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-align: center;
+    padding: 4px 0;
+    border-radius: 2px;
+    color: var(--text-2);
+    background: var(--wm-surface);
+  }
+
+  .row-name {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .row-name .title {
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--wm-navy);
+    line-height: 1.25;
+    letter-spacing: -0.1px;
+  }
+  .row-name .sub {
+    font-size: 10.5px;
+    color: var(--text-2);
+  }
+
+  .row-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .chip {
+    font-size: 10.5px;
+    font-weight: 500;
+    color: var(--text-2);
+    padding: 2px 8px;
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    white-space: nowrap;
+    line-height: 1.35;
+  }
+
+  .row-status {
+    text-align: right;
+  }
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 999px;
+    line-height: 1.4;
+  }
+  .status-pill .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .status-live { color: var(--wm-blue); background: rgba(0,113,220,0.10); border: 1px solid rgba(61,140,98,0.3); }
+  .status-next { color: var(--amber); background: var(--amber-soft); border: 1px solid rgba(255,194,32,0.6); }
+  .status-future { color: var(--text-2); background: var(--wm-surface); border: 1px solid var(--border); }
+
+  /* --- FOUNDATION ROW (proven, glowing) --- */
+  .row.foundation {
+    background: linear-gradient(90deg, rgba(0,113,220,0.08), rgba(0,113,220,0.04));
+    padding: 14px;
+    border-top: 1px solid rgba(0,113,220,0.25);
+  }
+  .row.foundation .step {
+    background: var(--wm-blue);
+    color: white;
+  }
+  .row.foundation .row-name .title { font-size: 13.5px; }
+  .row.foundation .row-name .sub { color: var(--wm-blue-dk); font-weight: 500; }
+  .row.foundation .chip {
+    background: var(--wm-blue);
+    color: white;
+    border-color: var(--wm-blue);
+    font-weight: 600;
+  }
+  .row.foundation .chip .ck {
+    font-weight: 700;
+    margin-left: 4px;
+  }
+  .row.foundation .chip .note {
+    display: block;
+    font-size: 8.5px;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.78);
+    text-transform: uppercase;
+    margin-top: 1px;
+    font-weight: 600;
+  }
+
+  /* --- RISK / GATE BAND --- */
+  .gate-band {
+    margin-top: 18px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 18px 12px;
+    background: var(--warm-white);
+  }
+  .gate-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .gate-head .label {
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--wm-blue);
+  }
+  .gate-head .why {
+    font-size: 10px;
+    color: var(--text-2);
+    font-style: italic;
+  }
+  .gate-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .gate {
+    padding: 6px 0 0;
+    border-top: 2px solid var(--wm-blue);
+  }
+  .gate-name {
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--wm-navy);
+    letter-spacing: -0.1px;
+    margin-bottom: 1px;
+  }
+  .gate-desc {
+    font-size: 10.5px;
+    color: var(--text-2);
+    line-height: 1.4;
+  }
+
+  /* --- BANNER --- */
+  .banner {
+    margin-top: 16px;
+    background: var(--wm-navy);
+    color: white;
+    border-radius: 4px;
+    padding: 14px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+  .banner-quote {
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.1px;
+  }
+  .banner-quote .accent { color: #FFC220; }
+  .legend {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .legend-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1;
+  }
+  .legend-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .legend-swatch.live { background: var(--wm-blue); }
+  .legend-swatch.next { background: var(--amber); }
+  .legend-swatch.future { background: white; border: 1px solid rgba(255,255,255,0.5); }
+
+  /* --- FOOTER --- */
+  .footer {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-2);
+  }
+  .footer strong { color: var(--wm-navy); }
+
+  .page::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--wm-blue) 0%, var(--wm-blue) 70%, #FFC220 70%, #FFC220 100%);
+    border-radius: 0 0 2px 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="logo"><span class="logo-light">mii</span><span class="logo-bold">plan</span></div>
+      <div class="logo-sub">Phased Platform Activation</div>
+    </div>
+    <div class="meta">
+      <div class="doc-type">Solution Roadmap</div>
+      <div>May 2026</div>
+      <div>Prepared for Walmart OGP</div>
+    </div>
+  </div>
+
+  <!-- TITLE -->
+  <div class="title-block">
+    <h1>A proven platform — in the black before it scales.</h1>
+    <p class="lede">
+      The core engine is already validated and profitable. <strong>Each capability adds operational value as it activates</strong> — and no capability activates until the one below it is proven in the field. Walmart never inherits unproven software.
+    </p>
+  </div>
+
+  <!-- VALUE CURVE -->
+  <div class="value-strip">
+    <div class="value-head">
+      <div class="label">Operational Value Captured · Per Walmart Store</div>
+      <div class="axis">Compounds as floors activate →</div>
+    </div>
+    <div class="curve">
+      <div class="bar live">
+        <div class="v">$72K</div>
+        <div class="v-sub">Today · proven</div>
+      </div>
+      <div class="bar next">
+        <div class="v">~$110K</div>
+        <div class="v-sub">+ slotting</div>
+      </div>
+      <div class="bar f2">
+        <div class="v">~$160K</div>
+        <div class="v-sub">+ supply chain</div>
+      </div>
+      <div class="bar f3">
+        <div class="v">~$220K</div>
+        <div class="v-sub">+ multi-firm</div>
+      </div>
+      <div class="bar f4">
+        <div class="v">vertical</div>
+        <div class="v-sub">new markets</div>
+      </div>
+      <div class="bar f5">
+        <div class="v">revenue</div>
+        <div class="v-sub">data products</div>
+      </div>
+    </div>
+    <div class="curve-labels">
+      <div class="cl live">Foundation</div>
+      <div class="cl">Stage 1</div>
+      <div class="cl">Stage 2</div>
+      <div class="cl">Stage 3</div>
+      <div class="cl">Stage 4</div>
+      <div class="cl">Stage 5</div>
+    </div>
+  </div>
+
+  <!-- STACK -->
+  <div class="stack">
+
+    <!-- Stage 5 -->
+    <div class="row">
+      <div class="step">S5</div>
+      <div class="row-name">
+        <div class="title">Additional Revenue Streams</div>
+        <div class="sub">Data product layer</div>
+      </div>
+      <div class="row-items">
+        <span class="chip">Carbon offsets</span>
+        <span class="chip">Industry reports</span>
+        <span class="chip">Managed data services</span>
+      </div>
+      <div class="row-status"><span class="status-pill status-future"><span class="dot"></span>Horizon</span></div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="row">
+      <div class="step">S4</div>
+      <div class="row-name">
+        <div class="title">Multi-Industry</div>
+        <div class="sub">Same engine, new verticals</div>
+      </div>
+      <div class="row-items">
+        <span class="chip">Healthcare</span>
+        <span class="chip">Construction</span>
+        <span class="chip">ATF</span>
+        <span class="chip">DoD</span>
+      </div>
+      <div class="row-status"><span class="status-pill status-future"><span class="dot"></span>Roadmap</span></div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="row">
+      <div class="step">S3</div>
+      <div class="row-name">
+        <div class="title">Multi-Firm Optimization</div>
+        <div class="sub">"The Beer Game"</div>
+      </div>
+      <div class="row-items">
+        <span class="chip">Logistics → DC</span>
+        <span class="chip">Vendor → Retailer</span>
+        <span class="chip">Manufacturer → Wholesaler</span>
+      </div>
+      <div class="row-status"><span class="status-pill status-future"><span class="dot"></span>Roadmap</span></div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="row">
+      <div class="step">S2</div>
+      <div class="row-name">
+        <div class="title">Supply Chain Automation</div>
+        <div class="sub">Between four walls</div>
+      </div>
+      <div class="row-items">
+        <span class="chip">Forecasting AI</span>
+        <span class="chip">Load planning</span>
+        <span class="chip">Network optimization</span>
+        <span class="chip">Ops failure predictions</span>
+      </div>
+      <div class="row-status"><span class="status-pill status-future"><span class="dot"></span>Roadmap</span></div>
+    </div>
+
+    <!-- Stage 1 - Next to activate -->
+    <div class="row">
+      <div class="step">S1</div>
+      <div class="row-name">
+        <div class="title">Warehouse Ops Automation</div>
+        <div class="sub">Within four walls</div>
+      </div>
+      <div class="row-items">
+        <span class="chip">Put-away AI</span>
+        <span class="chip">Replenishment AI</span>
+        <span class="chip">Pick-path slotting</span>
+        <span class="chip">Pallet building</span>
+        <span class="chip">OCR AI</span>
+      </div>
+      <div class="row-status"><span class="status-pill status-next"><span class="dot"></span>Next</span></div>
+    </div>
+
+    <!-- FOUNDATION -->
+    <div class="row foundation">
+      <div class="step">F</div>
+      <div class="row-name">
+        <div class="title">Validated Core Engine</div>
+        <div class="sub">Live pilot · proven beta · profitable</div>
+      </div>
+      <div class="row-items">
+        <span class="chip">
+          Order Batching AI <span class="ck">✓</span>
+          <span class="note">Air-traffic-control math</span>
+        </span>
+        <span class="chip">
+          Routing AI <span class="ck">✓</span>
+          <span class="note">2-day digital twin</span>
+        </span>
+      </div>
+      <div class="row-status"><span class="status-pill status-live" style="background: white; border-color: var(--wm-blue);"><span class="dot"></span>Live &amp; Proven</span></div>
+    </div>
+
+  </div>
+
+  <!-- GATE BAND -->
+  <div class="gate-band">
+    <div class="gate-head">
+      <div class="label">Gate Criteria · Every Floor Earns Activation</div>
+      <div class="why">Pilots launch green; nothing scales until it's proven.</div>
+    </div>
+    <div class="gate-grid">
+      <div class="gate">
+        <div class="gate-name">Functionality</div>
+        <div class="gate-desc">Does it work at target spec?</div>
+      </div>
+      <div class="gate">
+        <div class="gate-name">Scale</div>
+        <div class="gate-desc">Does it hold under volume?</div>
+      </div>
+      <div class="gate">
+        <div class="gate-name">Reliability</div>
+        <div class="gate-desc">Stays green in real conditions?</div>
+      </div>
+      <div class="gate">
+        <div class="gate-name">Complexity + Tuning</div>
+        <div class="gate-desc">Dialed in for the environment?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BANNER -->
+  <div class="banner">
+    <div class="banner-quote">
+      <span class="accent">Every pilot launches green on Day 1.</span> 60–90 days of live feedback before scale. Walmart pays only on measured savings.
+    </div>
+    <div class="legend">
+      <div class="legend-row"><div class="legend-swatch live"></div>Live</div>
+      <div class="legend-row"><div class="legend-swatch next"></div>Next</div>
+      <div class="legend-row"><div class="legend-swatch future"></div>Roadmap</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div><strong>Rob Jensen, PhD</strong> · rob@miiplan.com · 402-943-9218</div>
+    <div>MiiPlan, Inc. — Confidential · Prepared for Walmart OGP</div>
+  </div>
+
+</div>
+
+
+<script>
+  // Auto-open print dialog once fonts and layout are ready
+  (async function () {
+    try {
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+    } catch (e) {}
+    // small extra delay so layout settles
+    setTimeout(function () { window.print(); }, 500);
+  })();
+</script>
+</body>
+</html>
