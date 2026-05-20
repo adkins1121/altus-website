@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Altus KC // DocRoom — MiiPlan</title>
+<meta name="description" content="Walmart OGP Pick Optimization Pilot — capabilities pitch from MiiPlan, curated by Altus KC.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html {
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    color: #1A3C34;
+    background: #E8EBE6;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { max-width: 980px; margin: 48px auto; padding: 0 32px 64px; }
+
+  /* --- BRAND HEADER --- */
+  .brand-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+    border-bottom: 2px solid #1A3C34;
+  }
+  .brand-mark {
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 18px;
+    background: #1A3C34;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .brand-mark .mp-light { color: #F6F3EE; font-weight: 300; }
+  .brand-mark .mp-bold  { color: #5DAE82; font-weight: 800; }
+  .brand-text {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #1A3C34;
+    line-height: 1.1;
+  }
+  .brand-text .slash { color: #3D8C62; margin: 0 6px; font-weight: 600; }
+  .brand-text .docroom { color: #3D8C62; }
+  .brand-meta {
+    margin-left: auto;
+    font-size: 11px;
+    color: #4B5C56;
+    text-align: right;
+    line-height: 1.4;
+  }
+  .brand-meta strong { color: #1A3C34; font-weight: 600; }
+
+  h1 {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.6px;
+    margin-bottom: 8px;
+    color: #1A3C34;
+  }
+  .sub {
+    font-size: 14px;
+    color: #4B5C56;
+    line-height: 1.55;
+    margin-bottom: 28px;
+    max-width: 640px;
+  }
+
+  .instructions {
+    background: #FDFCFA;
+    border: 1px solid rgba(27,46,38,0.10);
+    border-left: 3px solid #3D8C62;
+    border-radius: 0 4px 4px 0;
+    padding: 14px 18px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #2D3F39;
+    margin-bottom: 32px;
+  }
+  .instructions strong { color: #1A3C34; }
+
+  .docs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .doc-card {
+    background: #FDFCFA;
+    border: 1px solid rgba(27,46,38,0.10);
+    border-radius: 4px;
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color .2s;
+  }
+  .doc-card:hover { border-color: #1A3C34; }
+  .doc-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.4);
+  }
+  .doc-title {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #1A3C34;
+    letter-spacing: -0.2px;
+  }
+  .doc-desc {
+    font-size: 12px;
+    color: #4B5C56;
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+
+  .actions { display: flex; gap: 8px; margin-top: 4px; }
+  .btn {
+    flex: 1;
+    text-align: center;
+    padding: 9px 12px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    border: 1px solid;
+    transition: all .15s ease;
+    cursor: pointer;
+  }
+  .btn.primary {
+    background: #3D8C62;
+    border-color: #3D8C62;
+    color: white;
+  }
+  .btn.primary:hover { background: #2B5C4E; border-color: #2B5C4E; }
+  .btn.ghost {
+    background: transparent;
+    border-color: rgba(27,46,38,0.18);
+    color: #2D3F39;
+  }
+  .btn.ghost:hover { background: rgba(0,0,0,0.04); }
+
+  /* --- CONTACTS --- */
+  .contacts {
+    margin-top: 40px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(27,46,38,0.10);
+  }
+  .contacts-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.4);
+    margin-bottom: 14px;
+  }
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .contact {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .contact-photo {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #1A3C34;
+    color: #F6F3EE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+  }
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+  }
+  .contact-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1A3C34;
+    letter-spacing: -0.15px;
+    line-height: 1.25;
+  }
+  .contact-role {
+    font-size: 11.5px;
+    color: #4B5C56;
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+  .contact-lines {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    font-size: 11.5px;
+    color: #2D3F39;
+    line-height: 1.4;
+  }
+  .contact-lines a {
+    color: #2D3F39;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(27,46,38,0.20);
+    transition: color .15s, border-color .15s;
+  }
+  .contact-lines a:hover {
+    color: #3D8C62;
+    border-color: #3D8C62;
+  }
+  .contact-lines .li-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-bottom: 0;
+  }
+  .contact-lines .li-icon svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+  }
+  .contact-lines .li-icon:hover svg { fill: #3D8C62; }
+
+  /* --- FOOTER --- */
+  .footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(27,46,38,0.10);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #4B5C56;
+  }
+  .footer-owner { display: flex; align-items: center; gap: 8px; }
+  .footer-owner-mark {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #1A3C34;
+    color: #F6F3EE;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+  .footer-owner-text {
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #1A3C34;
+  }
+  .footer-owner-text .sep { color: rgba(27,46,38,0.3); margin: 0 6px; }
+  .footer-owner-tag {
+    font-size: 10.5px;
+    color: #4B5C56;
+    font-weight: 500;
+  }
+
+  @media (max-width: 720px) {
+    body { margin: 24px auto; padding: 0 20px 40px; }
+    h1 { font-size: 24px; }
+    .docs { grid-template-columns: 1fr; }
+    .contacts-grid { grid-template-columns: 1fr; }
+    .brand-meta { display: none; }
+    .footer { flex-direction: column; gap: 10px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="brand-bar">
+  <div class="brand-mark mp"><span class="mp-light">mii</span><span class="mp-bold">M</span></div>
+  <div class="brand-text">Walmart<span class="slash">//</span><span class="docroom">OGP Pick Optimization Pilot</span></div>
+  <div class="brand-meta">
+    <div><strong>Capabilities pitch</strong></div>
+    <div>Prepared by MiiPlan · May 2026</div>
+  </div>
+</div>
+
+<h1>How smarter picking saves Walmart millions in labor</h1>
+<div class="sub">Three print-ready documents. Read on screen, or save any as a PDF for sharing.</div>
+
+<div class="instructions">
+  <strong>How to save as PDF.</strong> Click <em>Print to PDF</em> on any card — the print dialog opens automatically once the page loads. In the dialog, set the destination to <strong>Save as PDF</strong> and click Save. Use <em>Preview</em> to view the document first.
+</div>
+
+<div class="docs">
+  <div class="doc-card">
+    <div class="doc-num">01 · Solution Overview</div>
+    <div class="doc-title">How MiiPlan is different</div>
+    <div class="doc-desc">The DNA — four things that make the approach fundamentally different. Plus the phased capability arc, in plain English.</div>
+    <div class="actions">
+      <a class="btn ghost" href="walmart-miiplan/MiiPlan%20Solution%20Overview.html">Preview</a>
+      <a class="btn primary" href="walmart-miiplan/MiiPlan%20Solution%20Overview-print.html">Print to PDF</a>
+    </div>
+  </div>
+  <div class="doc-card">
+    <div class="doc-num">02 · Business Case</div>
+    <div class="doc-title">1-Page Business Case</div>
+    <div class="doc-desc">Problem, approach, target outcomes, investment. With a product-maturity appendix.</div>
+    <div class="actions">
+      <a class="btn ghost" href="walmart-miiplan/MiiPlan%20Business%20Case%20v2.html">Preview</a>
+      <a class="btn primary" href="walmart-miiplan/MiiPlan%20Business%20Case%20v2-print.html">Print to PDF</a>
+    </div>
+  </div>
+  <div class="doc-card">
+    <div class="doc-num">03 · Methodology</div>
+    <div class="doc-title">Phased Methodology</div>
+    <div class="doc-desc">How MiiPlan activates inside your operations — pick-path engine today, in-store ops next, between-site and vendor network over time.</div>
+    <div class="actions">
+      <a class="btn ghost" href="walmart-miiplan/MiiPlan%20Platform%20Architecture.html">Preview</a>
+      <a class="btn primary" href="walmart-miiplan/MiiPlan%20Platform%20Architecture-print.html">Print to PDF</a>
+    </div>
+  </div>
+</div>
+
+<div class="contacts">
+  <div class="contacts-label">Contacts</div>
+  <div class="contacts-grid">
+    <div class="contact">
+      <div class="contact-photo" style="background-image: url('walmart-miiplan/assets/rob-jensen.png');"></div>
+      <div class="contact-info">
+        <div class="contact-name">Rob Jensen, PhD</div>
+        <div class="contact-role">Co-Founder &amp; CEO · MiiPlan</div>
+        <div class="contact-lines">
+          <a href="mailto:rob@miiplan.com">rob@miiplan.com</a>
+          <a href="tel:+14029439218">402.943.9218</a>
+          <a class="li-icon" href="https://www.linkedin.com/in/robjensenphd/" target="_blank" rel="noopener" aria-label="Rob Jensen on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="#2D3F39" xmlns="http://www.w3.org/2000/svg"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="contact">
+      <div class="contact-photo" style="background-image: url('walmart-miiplan/assets/mike-adkins.png');"></div>
+      <div class="contact-info">
+        <div class="contact-name">Mike Adkins</div>
+        <div class="contact-role">Altus KC</div>
+        <div class="contact-lines">
+          <a href="mailto:mike@altus-kc.com">mike@altus-kc.com</a>
+          <a href="tel:+19134493371">913.449.3371</a>
+          <a class="li-icon" href="https://www.linkedin.com/in/mikeadkins/" target="_blank" rel="noopener" aria-label="Mike Adkins on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="#2D3F39" xmlns="http://www.w3.org/2000/svg"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-owner">
+    <div class="footer-owner-mark">A</div>
+    <div>
+      <div class="footer-owner-text">Altus KC<span class="sep">·</span>DocRoom</div>
+      <div class="footer-owner-tag">Owned and curated by Altus KC · May 2026</div>
+    </div>
+  </div>
+  <div>MiiPlan, Inc. — Confidential</div>
+</div>
+
+</body>
+</html>
