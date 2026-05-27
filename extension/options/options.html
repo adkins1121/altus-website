@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="options.css" />
+  <title>Altus KC Vault — Settings</title>
+</head>
+<body>
+  <main>
+    <header>
+      <span class="logo">ALTUS<span>KC</span></span>
+      <h1>Vault settings</h1>
+    </header>
+
+    <section class="card">
+      <h2>API keys</h2>
+      <label>Anthropic API key
+        <input id="anthropicKey" type="password" placeholder="sk-ant-…" autocomplete="off" />
+        <span class="helper">Used to extract company and contact info from page content. Stored locally.</span>
+      </label>
+      <label>Model
+        <select id="model">
+          <option value="claude-haiku-4-5">Claude Haiku 4.5 (fast, low cost)</option>
+          <option value="claude-sonnet-4-6">Claude Sonnet 4.6 (balanced)</option>
+          <option value="claude-opus-4-7">Claude Opus 4.7 (highest quality)</option>
+        </select>
+      </label>
+      <label>Notion integration token
+        <input id="notionToken" type="password" placeholder="secret_… or ntn_…" autocomplete="off" />
+        <span class="helper">Create one at <a href="https://www.notion.so/profile/integrations" target="_blank" rel="noopener">notion.so/profile/integrations</a>, then share each vault database with the integration.</span>
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>Notion databases</h2>
+      <label>Companies database ID
+        <input id="companiesDbId" type="text" placeholder="32 hex chars (with or without hyphens)" />
+        <span class="helper">Required. Open the database in Notion, copy the URL — the ID is the 32-character string before <code>?v=</code>.</span>
+      </label>
+      <label>Contacts database ID (optional)
+        <input id="contactsDbId" type="text" placeholder="32 hex chars (or leave blank to skip contacts)" />
+        <span class="helper">Leave blank to save companies only.</span>
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>Database schema</h2>
+      <p class="helper">
+        The extension matches Notion properties by name. Properties not in your DB are silently skipped, so create only the ones you want.
+        The <strong>title</strong> property in each DB is auto-detected — it doesn't need to be named "Name".
+      </p>
+      <details>
+        <summary>Recommended properties</summary>
+        <p><strong>Companies</strong></p>
+        <ul>
+          <li><code>Name</code> — Title</li>
+          <li><code>Website</code> — URL</li>
+          <li><code>Industry</code> — Select or Text</li>
+          <li><code>Description</code> — Text</li>
+          <li><code>Location</code> — Text</li>
+          <li><code>Phone</code> — Phone</li>
+          <li><code>Source URL</code> — URL</li>
+        </ul>
+        <p><strong>Contacts</strong></p>
+        <ul>
+          <li><code>Name</code> — Title</li>
+          <li><code>Title</code> — Text</li>
+          <li><code>Email</code> — Email</li>
+          <li><code>Phone</code> — Phone</li>
+          <li><code>LinkedIn</code> — URL</li>
+          <li><code>Company</code> — Text</li>
+          <li><code>Source URL</code> — URL</li>
+        </ul>
+      </details>
+    </section>
+
+    <div class="actions">
+      <button id="testBtn" class="ghost">Test connection</button>
+      <button id="saveBtn" class="primary">Save settings</button>
+    </div>
+    <p id="status" class="status hidden"></p>
+  </main>
+  <script src="options.js"></script>
+</body>
+</html>
