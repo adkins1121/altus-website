@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>3PL Performance Assessment — Sample Deliverable | Altus KC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg-primary: #f6f3ee;
+  --bg-white: #fdfcfa;
+  --bg-card: #edeae4;
+  --bg-card-hover: #e4e0d8;
+  --bg-dark: #1b2e26;
+  --bg-dark-mid: #233d33;
+  --accent: #3d8c62;
+  --accent-light: #5dae82;
+  --accent-glow: rgba(61,140,98,0.08);
+  --text-primary: #1b2e26;
+  --text-secondary: #5a6b60;
+  --text-muted: #8a9690;
+  --border: rgba(27,46,38,0.10);
+  --border-accent: rgba(61,140,98,0.22);
+  --shadow: 0 4px 24px rgba(27,46,38,0.08);
+  --shadow-lg: 0 12px 48px rgba(27,46,38,0.12);
+  --red: #c0392b;
+  --yellow: #d4880a;
+  --green: #3d8c62;
+  --red-bg: rgba(192,57,43,0.08);
+  --yellow-bg: rgba(212,136,10,0.08);
+  --green-bg: rgba(61,140,98,0.08);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg-primary);color:var(--text-primary);overflow-x:hidden;font-size:15px;}
+
+/* ─── TOP NAV ─── */
+.topbar{
+  background:var(--bg-dark);
+  padding:14px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  border-bottom:1px solid rgba(93,174,130,0.15);
+}
+.logo-mark{display:flex;align-items:center;gap:12px;}
+.logo-svg{width:28px;height:28px;}
+.logo-text{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1rem;letter-spacing:0.18em;color:#fdfcfa;text-transform:uppercase;}
+.logo-text span{color:var(--accent-light);}
+.doc-badge{
+  font-family:'Montserrat',sans-serif;font-size:0.6rem;font-weight:700;
+  letter-spacing:0.18em;text-transform:uppercase;
+  background:rgba(61,140,98,0.18);color:var(--accent-light);
+  padding:5px 12px;border-radius:2px;border:1px solid rgba(93,174,130,0.2);
+}
+.topbar-right{display:flex;align-items:center;gap:16px;}
+.sample-pill{
+  font-family:'Montserrat',sans-serif;font-size:0.58rem;font-weight:700;
+  letter-spacing:0.14em;text-transform:uppercase;
+  background:rgba(212,136,10,0.18);color:#f0a832;
+  padding:4px 10px;border-radius:2px;border:1px solid rgba(212,136,10,0.25);
+}
+
+/* ─── HERO HEADER ─── */
+.hero{
+  background:var(--bg-dark);
+  padding:56px 40px 48px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-60px;right:-80px;
+  width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(61,140,98,0.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-inner{max-width:1200px;margin:0 auto;}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:40px;}
+.hero-label{font-family:'Montserrat',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:var(--accent-light);margin-bottom:12px;}
+.hero h1{font-family:'Montserrat',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:900;color:#fdfcfa;line-height:1.15;letter-spacing:-0.02em;max-width:580px;}
+.hero h1 em{color:var(--accent-light);font-style:italic;}
+.hero-meta{display:flex;flex-direction:column;gap:10px;align-items:flex-end;min-width:200px;}
+.meta-item{font-family:'Montserrat',sans-serif;font-size:0.62rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(240,235,227,0.5);text-align:right;}
+.meta-item span{color:rgba(240,235,227,0.85);display:block;font-size:0.78rem;margin-top:2px;}
+
+.score-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.score-card{
+  background:rgba(35,61,51,0.7);border:1px solid rgba(93,174,130,0.12);
+  border-radius:4px;padding:18px 16px;text-align:center;
+  transition:all 0.25s;cursor:default;
+}
+.score-card:hover{background:rgba(35,61,51,0.95);border-color:rgba(93,174,130,0.28);}
+.score-label{font-family:'Montserrat',sans-serif;font-size:0.55rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(240,235,227,0.45);margin-bottom:8px;}
+.score-value{font-family:'Montserrat',sans-serif;font-size:1.7rem;font-weight:900;line-height:1;}
+.score-value.red{color:#e05c4b;}
+.score-value.yellow{color:#f0a832;}
+.score-value.green{color:var(--accent-light);}
+.score-sub{font-size:0.68rem;color:rgba(240,235,227,0.4);margin-top:4px;}
+
+/* ─── AI CALLOUT BANNER ─── */
+.ai-banner{
+  background:linear-gradient(135deg,var(--bg-dark-mid) 0%,#1a3828 100%);
+  border-bottom:2px solid var(--accent);
+  padding:18px 40px;
+  display:flex;align-items:center;gap:16px;
+}
+.ai-icon{
+  width:36px;height:36px;background:var(--accent);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.ai-icon svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.8;}
+.ai-text{font-size:0.85rem;color:rgba(240,235,227,0.8);line-height:1.6;max-width:900px;}
+.ai-text strong{color:#fdfcfa;}
+.ai-flags{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto;}
+.ai-flag{
+  font-family:'Montserrat',sans-serif;font-size:0.58rem;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:4px 10px;border-radius:2px;
+}
+.ai-flag.red{background:rgba(192,57,43,0.25);color:#e05c4b;border:1px solid rgba(192,57,43,0.3);}
+.ai-flag.yellow{background:rgba(212,136,10,0.22);color:#f0a832;border:1px solid rgba(212,136,10,0.3);}
+.ai-flag.green{background:rgba(61,140,98,0.22);color:var(--accent-light);border:1px solid rgba(61,140,98,0.3);}
+
+/* ─── MAIN LAYOUT ─── */
+.main{max-width:1200px;margin:0 auto;padding:40px 40px 80px;}
+
+/* ─── TABS ─── */
+.tabs{display:flex;gap:2px;margin-bottom:32px;background:var(--bg-card);border-radius:4px;padding:4px;width:fit-content;}
+.tab{
+  font-family:'Montserrat',sans-serif;font-size:0.68rem;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;
+  padding:9px 18px;border-radius:3px;cursor:pointer;
+  color:var(--text-muted);transition:all 0.2s;border:none;background:none;
+}
+.tab.active{background:var(--bg-dark);color:#fdfcfa;}
+.tab:hover:not(.active){color:var(--text-primary);}
+
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* ─── SECTION TITLES ─── */
+.section-label{font-family:'Montserrat',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.section-title{font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:800;color:var(--text-primary);margin-bottom:6px;letter-spacing:-0.01em;}
+.section-sub{font-size:0.88rem;color:var(--text-secondary);line-height:1.7;margin-bottom:28px;max-width:760px;}
+
+/* ─── GRID LAYOUTS ─── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+
+/* ─── CARDS ─── */
+.card{background:var(--bg-white);border:1px solid var(--border);border-radius:4px;padding:24px;box-shadow:var(--shadow);}
+.card-dark{background:var(--bg-dark);border:1px solid rgba(93,174,130,0.12);border-radius:4px;padding:24px;}
+.card-title{font-family:'Montserrat',sans-serif;font-size:0.78rem;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;color:var(--text-primary);margin-bottom:16px;}
+.card-title-light{font-family:'Montserrat',sans-serif;font-size:0.78rem;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;color:#fdfcfa;margin-bottom:16px;}
+
+/* ─── VENDOR COMPARISON ─── */
+.vendor-header{
+  display:grid;grid-template-columns:200px 1fr 1fr;gap:0;
+  background:var(--bg-dark);border-radius:4px 4px 0 0;
+  border:1px solid rgba(93,174,130,0.12);
+  overflow:hidden;margin-bottom:0;
+}
+.vendor-col-label{padding:20px 24px;font-family:'Montserrat',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(240,235,227,0.5);}
+.vendor-col{padding:20px 24px;border-left:1px solid rgba(93,174,130,0.12);}
+.vendor-name{font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:800;color:#fdfcfa;margin-bottom:4px;}
+.vendor-sites{font-size:0.75rem;color:rgba(240,235,227,0.45);}
+.vendor-overall{display:inline-flex;align-items:center;gap:6px;margin-top:8px;}
+.vendor-score-pill{
+  font-family:'Montserrat',sans-serif;font-size:0.85rem;font-weight:800;
+  padding:3px 10px;border-radius:2px;
+}
+.vendor-score-pill.yellow{background:rgba(212,136,10,0.2);color:#f0a832;}
+.vendor-score-pill.red{background:rgba(192,57,43,0.18);color:#e05c4b;}
+
+.metric-table{border:1px solid var(--border);border-top:none;border-radius:0 0 4px 4px;overflow:hidden;}
+.metric-row{display:grid;grid-template-columns:200px 1fr 1fr;border-bottom:1px solid var(--border);}
+.metric-row:last-child{border-bottom:none;}
+.metric-row:hover{background:var(--bg-card);}
+.metric-name{padding:14px 24px;font-size:0.82rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:8px;}
+.metric-cell{padding:14px 24px;border-left:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.metric-val{font-family:'Montserrat',sans-serif;font-size:0.95rem;font-weight:700;}
+.metric-val.red{color:var(--red);}
+.metric-val.yellow{color:var(--yellow);}
+.metric-val.green{color:var(--green);}
+.bench-tag{font-size:0.68rem;color:var(--text-muted);background:var(--bg-card);padding:2px 7px;border-radius:2px;}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.status-dot.red{background:var(--red);}
+.status-dot.yellow{background:var(--yellow);}
+.status-dot.green{background:var(--green);}
+.ai-note{font-size:0.72rem;color:var(--text-muted);font-style:italic;margin-top:3px;}
+
+/* ─── WAREHOUSE CARDS ─── */
+.warehouse-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;}
+.wh-card{
+  background:var(--bg-white);border:1px solid var(--border);border-radius:4px;
+  overflow:hidden;box-shadow:var(--shadow);transition:all 0.25s;
+}
+.wh-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px);}
+.wh-card-header{
+  padding:18px 22px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.wh-name{font-family:'Montserrat',sans-serif;font-size:0.85rem;font-weight:800;color:var(--text-primary);}
+.wh-vendor{font-size:0.72rem;color:var(--text-muted);margin-top:2px;}
+.wh-score{
+  font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;
+}
+.wh-card-body{padding:18px 22px;}
+.wh-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.wh-metric{background:var(--bg-card);border-radius:3px;padding:10px 12px;}
+.wh-metric-label{font-family:'Montserrat',sans-serif;font-size:0.55rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;}
+.wh-metric-val{font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:800;}
+.wh-flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.wh-flag{
+  font-size:0.68rem;font-weight:600;padding:3px 8px;border-radius:2px;
+  display:flex;align-items:center;gap:4px;
+}
+.wh-flag.issue{background:var(--red-bg);color:var(--red);border:1px solid rgba(192,57,43,0.2);}
+.wh-flag.warn{background:var(--yellow-bg);color:var(--yellow);border:1px solid rgba(212,136,10,0.2);}
+.wh-flag.ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(61,140,98,0.2);}
+.wh-ai-insight{
+  background:rgba(61,140,98,0.05);border:1px solid rgba(61,140,98,0.12);
+  border-radius:3px;padding:10px 12px;margin-top:12px;
+  font-size:0.78rem;color:var(--text-secondary);line-height:1.6;
+}
+.wh-ai-insight::before{content:'⚡ AI INSIGHT  ';font-family:'Montserrat',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;color:var(--accent);display:inline;}
+
+/* ─── FINDINGS / RECS ─── */
+.findings-list{display:flex;flex-direction:column;gap:14px;}
+.finding{
+  background:var(--bg-white);border:1px solid var(--border);border-radius:4px;
+  padding:20px 22px;display:flex;gap:16px;align-items:flex-start;
+  box-shadow:var(--shadow);
+}
+.finding-priority{
+  font-family:'Montserrat',sans-serif;font-size:0.58rem;font-weight:800;
+  letter-spacing:0.12em;text-transform:uppercase;
+  padding:4px 10px;border-radius:2px;white-space:nowrap;flex-shrink:0;margin-top:2px;
+}
+.finding-priority.critical{background:var(--red-bg);color:var(--red);border:1px solid rgba(192,57,43,0.25);}
+.finding-priority.high{background:var(--yellow-bg);color:var(--yellow);border:1px solid rgba(212,136,10,0.25);}
+.finding-priority.medium{background:var(--green-bg);color:var(--green);border:1px solid rgba(61,140,98,0.25);}
+.finding-content{flex:1;}
+.finding-title{font-family:'Montserrat',sans-serif;font-size:0.88rem;font-weight:700;color:var(--text-primary);margin-bottom:6px;}
+.finding-desc{font-size:0.82rem;color:var(--text-secondary);line-height:1.7;}
+.finding-meta{display:flex;gap:12px;margin-top:8px;}
+.finding-tag{font-size:0.68rem;color:var(--text-muted);background:var(--bg-card);padding:2px 8px;border-radius:2px;}
+
+/* ─── DATA QUALITY ─── */
+.dq-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;}
+.dq-card{background:var(--bg-white);border:1px solid var(--border);border-radius:4px;padding:20px;box-shadow:var(--shadow);}
+.dq-label{font-family:'Montserrat',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;}
+.dq-value{font-family:'Montserrat',sans-serif;font-size:2rem;font-weight:900;line-height:1;}
+.dq-desc{font-size:0.78rem;color:var(--text-secondary);margin-top:6px;line-height:1.6;}
+.dq-bar{height:4px;background:var(--bg-card);border-radius:2px;margin-top:10px;overflow:hidden;}
+.dq-fill{height:100%;border-radius:2px;background:var(--accent);}
+.dq-fill.warn{background:var(--yellow);}
+.dq-fill.danger{background:var(--red);}
+
+/* ─── CHART CONTAINERS ─── */
+.chart-wrap{position:relative;height:260px;margin-top:8px;}
+
+/* ─── PROCESS MAP ─── */
+.process-steps{display:flex;gap:0;margin:20px 0;overflow-x:auto;padding-bottom:8px;}
+.process-step{
+  flex:1;min-width:140px;background:var(--bg-white);border:1px solid var(--border);
+  padding:16px 14px;position:relative;text-align:center;
+}
+.process-step:not(:last-child)::after{
+  content:'→';position:absolute;right:-12px;top:50%;transform:translateY(-50%);
+  color:var(--accent);font-size:1.1rem;font-weight:700;z-index:1;
+  background:var(--bg-primary);padding:0 2px;
+}
+.step-num{font-family:'Montserrat',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;color:var(--accent);margin-bottom:6px;}
+.step-title{font-family:'Montserrat',sans-serif;font-size:0.72rem;font-weight:700;color:var(--text-primary);margin-bottom:4px;}
+.step-desc{font-size:0.7rem;color:var(--text-muted);line-height:1.5;}
+.step-ai{font-size:0.65rem;color:var(--accent);margin-top:6px;font-style:italic;}
+
+/* ─── FOOTER ─── */
+.page-footer{
+  background:var(--bg-dark);padding:28px 40px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid rgba(93,174,130,0.12);
+}
+.footer-logo{font-family:'Montserrat',sans-serif;font-weight:800;font-size:0.9rem;letter-spacing:0.18em;color:#fdfcfa;text-transform:uppercase;}
+.footer-logo span{color:var(--accent-light);}
+.footer-text{font-size:0.72rem;color:rgba(240,235,227,0.35);text-align:center;}
+.footer-contact{font-size:0.75rem;color:var(--accent-light);text-align:right;}
+
+/* ─── DIVIDER ─── */
+.divider{height:1px;background:var(--border);margin:32px 0;}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .score-cards{grid-template-columns:repeat(3,1fr);}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}
+  .vendor-header,.metric-row{grid-template-columns:1fr;}
+  .metric-cell{border-left:none;border-top:1px solid var(--border);}
+  .main{padding:24px 20px 60px;}
+  .hero{padding:32px 20px 28px;}
+  .ai-banner{padding:14px 20px;flex-wrap:wrap;}
+  .ai-flags{margin-left:0;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="topbar">
+  <div class="logo-mark">
+    <svg class="logo-svg" viewBox="0 0 40 40" fill="none">
+      <polygon points="20,4 36,34 4,34" fill="none" stroke="#3d8c62" stroke-width="2.5"/>
+      <polygon points="20,12 29,28 11,28" fill="#3d8c62" opacity="0.45"/>
+    </svg>
+    <div class="logo-text">ALTUS <span>KC</span></div>
+  </div>
+  <div class="topbar-right">
+    <div class="sample-pill">⚠ Sample Deliverable</div>
+    <div class="doc-badge">3PL Performance Assessment</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div>
+        <div class="hero-label">Confidential — Prepared for Monarch Inventory Services</div>
+        <h1>3PL Performance &amp;<br/><em>Inventory Control Assessment</em></h1>
+      </div>
+      <div class="hero-meta">
+        <div class="meta-item">Assessment Period<span>Q1–Q2 2025</span></div>
+        <div class="meta-item">Vendors Assessed<span>2 (Vendor A · Vendor B)</span></div>
+        <div class="meta-item">Locations<span>5 Warehouse Sites</span></div>
+        <div class="meta-item">Prepared By<span>Altus KC — Mike Adkins</span></div>
+      </div>
+    </div>
+
+    <div class="score-cards">
+      <div class="score-card">
+        <div class="score-label">Overall Score</div>
+        <div class="score-value yellow">71<span style="font-size:1rem">/100</span></div>
+        <div class="score-sub">Needs Improvement</div>
+      </div>
+      <div class="score-card">
+        <div class="score-label">Inv. Accuracy</div>
+        <div class="score-value yellow">96.4%</div>
+        <div class="score-sub">Target ≥ 99.5%</div>
+      </div>
+      <div class="score-card">
+        <div class="score-label">SLA Compliance</div>
+        <div class="score-value red">81.2%</div>
+        <div class="score-sub">Target ≥ 98%</div>
+      </div>
+      <div class="score-card">
+        <div class="score-label">Order Accuracy</div>
+        <div class="score-value yellow">97.1%</div>
+        <div class="score-sub">Target ≥ 99.5%</div>
+      </div>
+      <div class="score-card">
+        <div class="score-label">Data Quality</div>
+        <div class="score-value red">68%</div>
+        <div class="score-sub">Critical Gap</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI BANNER -->
+<div class="ai-banner">
+  <div class="ai-icon">
+    <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="1"/></svg>
+  </div>
+  <div class="ai-text">
+    <strong>AI-Enhanced Analysis:</strong> Data across 5 sites was ingested, normalized, and cross-validated using AI processing. <strong>14 data integrity issues</strong> were auto-flagged, <strong>3 anomalous SLA patterns</strong> were identified, and <strong>predictive gap modeling</strong> was applied to project 90-day P&amp;L exposure if issues go unresolved.
+  </div>
+  <div class="ai-flags">
+    <div class="ai-flag red">3 Critical</div>
+    <div class="ai-flag yellow">7 Warnings</div>
+    <div class="ai-flag green">4 On Target</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('overview')">Executive Summary</button>
+    <button class="tab" onclick="showTab('vendors')">Vendor Comparison</button>
+    <button class="tab" onclick="showTab('sites')">Site Breakdown</button>
+    <button class="tab" onclick="showTab('data')">Data Quality</button>
+    <button class="tab" onclick="showTab('findings')">Findings &amp; Recommendations</button>
+    <button class="tab" onclick="showTab('process')">AI Process Map</button>
+  </div>
+
+  <!-- ══════════════════════════════ OVERVIEW ══════════════════════════════ -->
+  <div id="tab-overview" class="tab-panel active">
+    <div class="section-label">Executive Summary</div>
+    <h2 class="section-title">What we found — and what it means for the business.</h2>
+    <p class="section-sub">This assessment evaluated two third-party logistics vendors across five warehouse locations, measuring inventory accuracy, SLA compliance, data quality, order fulfillment, dock-to-stock performance, and SOP adherence. The findings reveal significant gaps that are directly impacting inventory control and financial performance.</p>
+
+    <div class="grid-2" style="margin-bottom:24px;">
+      <div class="card">
+        <div class="card-title">Performance at a Glance</div>
+        <div class="chart-wrap"><canvas id="radarChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Score by Location</div>
+        <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card" style="border-top:3px solid var(--red);">
+        <div class="section-label" style="color:var(--red);">Critical Finding</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:800;margin-bottom:8px;">SLA Non-Compliance at Scale</div>
+        <p style="font-size:0.83rem;color:var(--text-secondary);line-height:1.7;">Vendor B sites are missing on-time shipping SLAs at a rate that projects to <strong>$180K–$240K</strong> in potential client penalty exposure annually. Root cause: no systematic SLA tracking in their WMS.</p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--yellow);">
+        <div class="section-label" style="color:var(--yellow);">High Priority</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:800;margin-bottom:8px;">Inventory Data Integrity</div>
+        <p style="font-size:0.83rem;color:var(--text-secondary);line-height:1.7;">AI cross-validation identified <strong>14 discrepancies</strong> between physical counts and WMS records across all five sites. Three sites show systematic counting errors tied to shift-change handoff gaps.</p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--green);">
+        <div class="section-label" style="color:var(--green);">Opportunity</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:800;margin-bottom:8px;">Vendor A Scalable Model</div>
+        <p style="font-size:0.83rem;color:var(--text-secondary);line-height:1.7;">Vendor A's Denver and Chicago sites demonstrate a <strong>replicable SOP model</strong> that Vendor B sites could adopt. If standardized across all five locations, overall accuracy improves to an estimated 98.8%.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="card-dark">
+      <div class="card-title-light">P&amp;L Impact Summary — AI Projection</div>
+      <div class="grid-4" style="margin-top:4px;">
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,235,227,0.4);margin-bottom:6px;">Est. Annual Shrink Exposure</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:1.6rem;font-weight:900;color:#e05c4b;">$412K</div>
+          <div style="font-size:0.72rem;color:rgba(240,235,227,0.35);margin-top:3px;">Based on current accuracy variance</div>
+        </div>
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,235,227,0.4);margin-bottom:6px;">SLA Penalty Exposure</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:1.6rem;font-weight:900;color:#f0a832;">$210K</div>
+          <div style="font-size:0.72rem;color:rgba(240,235,227,0.35);margin-top:3px;">Projected at current miss rate</div>
+        </div>
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,235,227,0.4);margin-bottom:6px;">Recoverable w/ Remediation</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:1.6rem;font-weight:900;color:var(--accent-light);">$390K</div>
+          <div style="font-size:0.72rem;color:rgba(240,235,227,0.35);margin-top:3px;">If all Priority 1 findings resolved</div>
+        </div>
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,235,227,0.4);margin-bottom:6px;">Assessment ROI</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:1.6rem;font-weight:900;color:var(--accent-light);">14x</div>
+          <div style="font-size:0.72rem;color:rgba(240,235,227,0.35);margin-top:3px;">Recoverable vs. assessment cost</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ VENDOR COMPARISON ══════════════════════════════ -->
+  <div id="tab-vendors" class="tab-panel">
+    <div class="section-label">Vendor Comparison</div>
+    <h2 class="section-title">Side-by-side performance: Vendor A vs. Vendor B</h2>
+    <p class="section-sub">Each metric is measured against industry benchmarks. AI processing normalized data across both vendors' WMS exports to ensure apples-to-apples comparison.</p>
+
+    <div class="vendor-header">
+      <div class="vendor-col-label" style="display:flex;align-items:center;">Metric</div>
+      <div class="vendor-col">
+        <div class="vendor-name">Vendor A</div>
+        <div class="vendor-sites">Sites: Denver (A1), Chicago (A2)</div>
+        <div class="vendor-overall">
+          <span class="vendor-score-pill yellow">78/100</span>
+          <span style="font-size:0.7rem;color:rgba(240,235,227,0.4);">Overall</span>
+        </div>
+      </div>
+      <div class="vendor-col">
+        <div class="vendor-name">Vendor B</div>
+        <div class="vendor-sites">Sites: Dallas (B1), Memphis (B2), Atlanta (B3)</div>
+        <div class="vendor-overall">
+          <span class="vendor-score-pill red">64/100</span>
+          <span style="font-size:0.7rem;color:rgba(240,235,227,0.4);">Overall</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-table">
+      <!-- Inventory Accuracy -->
+      <div class="metric-row">
+        <div class="metric-name">
+          <span>📦</span>Inventory Accuracy
+        </div>
+        <div class="metric-cell">
+          <div class="status-dot green"></div>
+          <div>
+            <div class="metric-val green">98.7%</div>
+            <div class="bench-tag">Benchmark: ≥99.5%</div>
+            <div class="ai-note">AI flagged 2 cycle count gaps at A2</div>
+          </div>
+        </div>
+        <div class="metric-cell">
+          <div class="status-dot red"></div>
+          <div>
+            <div class="metric-val red">94.1%</div>
+            <div class="bench-tag">Benchmark: ≥99.5%</div>
+            <div class="ai-note">Systematic shift-handoff errors detected</div>
+          </div>
+        </div>
+      </div>
+      <!-- SLA Compliance -->
+      <div class="metric-row">
+        <div class="metric-name"><span>⏱</span>SLA Compliance</div>
+        <div class="metric-cell">
+          <div class="status-dot yellow"></div>
+          <div>
+            <div class="metric-val yellow">91.4%</div>
+            <div class="bench-tag">Benchmark: ≥98%</div>
+            <div class="ai-note">Seasonal volume spikes driving misses</div>
+          </div>
+        </div>
+        <div class="metric-cell">
+          <div class="status-dot red"></div>
+          <div>
+            <div class="metric-val red">71.0%</div>
+            <div class="bench-tag">Benchmark: ≥98%</div>
+            <div class="ai-note">No WMS-based SLA tracking in place</div>
+          </div>
+        </div>
+      </div>
+      <!-- Order Accuracy -->
+      <div class="metric-row">
+        <div class="metric-name"><span>✅</span>Order Accuracy</div>
+        <div class="metric-cell">
+          <div class="status-dot yellow"></div>
+          <div>
+            <div class="metric-val yellow">98.2%</div>
+            <div class="bench-tag">Benchmark: ≥99.5%</div>
+            <div class="ai-note">Pick errors concentrated on 3 SKU families</div>
+          </div>
+        </div>
+        <div class="metric-cell">
+          <div class="status-dot red"></div>
+          <div>
+            <div class="metric-val red">96.0%</div>
+            <div class="bench-tag">Benchmark: ≥99.5%</div>
+            <div class="ai-note">Manual pick processes — no scan verification</div>
+          </div>
+        </div>
+      </div>
+      <!-- Dock-to-Stock -->
+      <div class="metric-row">
+        <div class="metric-name"><span>🚚</span>Dock-to-Stock Time</div>
+        <div class="metric-cell">
+          <div class="status-dot green"></div>
+          <div>
+            <div class="metric-val green">22 hrs</div>
+            <div class="bench-tag">Benchmark: ≤48 hrs</div>
+            <div class="ai-note">Within target at both sites</div>
+          </div>
+        </div>
+        <div class="metric-cell">
+          <div class="status-dot yellow"></div>
+          <div>
+            <div class="metric-val yellow">39 hrs</div>
+            <div class="bench-tag">Benchmark: ≤48 hrs</div>
+            <div class="ai-note">Trending toward breach in peak periods</div>
+          </div>
+        </div>
+      </div>
+      <!-- SOP Adherence -->
+      <div class="metric-row">
+        <div class="metric-name"><span>📋</span>SOP Adherence</div>
+        <div class="metric-cell">
+          <div class="status-dot yellow"></div>
+          <div>
+            <div class="metric-val yellow">82%</div>
+            <div class="bench-tag">Benchmark: ≥95%</div>
+            <div class="ai-note">A1 strong; A2 has 6 deviations documented</div>
+          </div>
+        </div>
+        <div class="metric-cell">
+          <div class="status-dot red"></div>
+          <div>
+            <div class="metric-val red">54%</div>
+            <div class="bench-tag">Benchmark: ≥95%</div>
+            <div class="ai-note">SOPs exist but are not being followed at B2/B3</div>
+          </div>
+        </div>
+      </div>
+      <!-- Data Accuracy -->
+      <div class="metric-row">
+        <div class="metric-name"><span>🗄</span>WMS Data Accuracy</div>
+        <div class="metric-cell">
+          <div class="status-dot yellow"></div>
+          <div>
+            <div class="metric-val yellow">79%</div>
+            <div class="bench-tag">Benchmark: ≥95%</div>
+            <div class="ai-note">AI found 4 duplicate SKU records</div>
+          </div>
+        </div>
+        <div class="metric-cell">
+          <div class="status-dot red"></div>
+          <div>
+            <div class="metric-val red">57%</div>
+            <div class="bench-tag">Benchmark: ≥95%</div>
+            <div class="ai-note">10 integrity issues flagged across 3 sites</div>
+          </div>
+        </div>
+      </div>
+      <!-- Returns Processing -->
+      <div class="metric-row">
+        <div class="metric-name"><span>↩</span>Returns Processing</div>
+        <div class="metric-cell">
+          <div class="status-dot green"></div>
+          <div>
+            <div class="metric-val green">94%</div>
+            <div class="bench-tag">Benchmark: ≥90%</div>
+            <div class="ai-note">Above benchmark — best practice site</div>
+          </div>
+        </div>
+        <div class="metric-cell">
+          <div class="status-dot yellow"></div>
+          <div>
+            <div class="metric-val yellow">86%</div>
+            <div class="bench-tag">Benchmark: ≥90%</div>
+            <div class="ai-note">Backlog building at B2 — staffing constraint</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="card">
+        <div class="card-title">Vendor Score Trend — Last 6 Months</div>
+        <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ SITES ══════════════════════════════ -->
+  <div id="tab-sites" class="tab-panel">
+    <div class="section-label">Site Breakdown</div>
+    <h2 class="section-title">Individual warehouse performance profiles.</h2>
+    <p class="section-sub">Each site was assessed via on-site visit, data collection, and AI-assisted analysis. Scores reflect composite performance across all KPIs.</p>
+
+    <div class="warehouse-grid">
+      <!-- SITE A1 -->
+      <div class="wh-card">
+        <div class="wh-card-header">
+          <div>
+            <div class="wh-name">Denver Distribution Center</div>
+            <div class="wh-vendor">Vendor A · Site A1 · 180,000 sq ft</div>
+          </div>
+          <div class="wh-score green">84</div>
+        </div>
+        <div class="wh-card-body">
+          <div class="wh-metrics">
+            <div class="wh-metric"><div class="wh-metric-label">Inv. Accuracy</div><div class="wh-metric-val green">99.1%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">SLA Compliance</div><div class="wh-metric-val yellow">93.2%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">Order Accuracy</div><div class="wh-metric-val green">99.0%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">Dock-to-Stock</div><div class="wh-metric-val green">18 hrs</div></div>
+          </div>
+          <div class="wh-flags">
+            <div class="wh-flag ok">✓ Strong SOP adherence</div>
+            <div class="wh-flag warn">⚠ SLA seasonal gaps</div>
+            <div class="wh-flag ok">✓ Best cycle count process</div>
+          </div>
+          <div class="wh-ai-insight">Highest performer across all 5 sites. SOP model here is replicable. Primary gap is volume forecasting — SLA misses cluster in peak periods suggesting a staffing/flex capacity issue, not a process problem.</div>
+        </div>
+      </div>
+
+      <!-- SITE A2 -->
+      <div class="wh-card">
+        <div class="wh-card-header">
+          <div>
+            <div class="wh-name">Chicago Fulfillment Hub</div>
+            <div class="wh-vendor">Vendor A · Site A2 · 240,000 sq ft</div>
+          </div>
+          <div class="wh-score yellow">72</div>
+        </div>
+        <div class="wh-card-body">
+          <div class="wh-metrics">
+            <div class="wh-metric"><div class="wh-metric-label">Inv. Accuracy</div><div class="wh-metric-val yellow">98.3%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">SLA Compliance</div><div class="wh-metric-val yellow">89.6%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">Order Accuracy</div><div class="wh-metric-val yellow">97.4%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">Dock-to-Stock</div><div class="wh-metric-val green">26 hrs</div></div>
+          </div>
+          <div class="wh-flags">
+            <div class="wh-flag warn">⚠ 6 SOP deviations logged</div>
+            <div class="wh-flag warn">⚠ 4 duplicate SKU records</div>
+            <div class="wh-flag ok">✓ Returns processing strong</div>
+          </div>
+          <div class="wh-ai-insight">AI identified 4 duplicate SKU records causing phantom inventory. Two pick zones operating on outdated location maps — contributing to accuracy variance. Addressable within 30 days.</div>
+        </div>
+      </div>
+
+      <!-- SITE B1 -->
+      <div class="wh-card">
+        <div class="wh-card-header">
+          <div>
+            <div class="wh-name">Dallas Regional Warehouse</div>
+            <div class="wh-vendor">Vendor B · Site B1 · 310,000 sq ft</div>
+          </div>
+          <div class="wh-score yellow">68</div>
+        </div>
+        <div class="wh-card-body">
+          <div class="wh-metrics">
+            <div class="wh-metric"><div class="wh-metric-label">Inv. Accuracy</div><div class="wh-metric-val yellow">95.8%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">SLA Compliance</div><div class="wh-metric-val red">74.0%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">Order Accuracy</div><div class="wh-metric-val yellow">96.9%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">Dock-to-Stock</div><div class="wh-metric-val yellow">34 hrs</div></div>
+          </div>
+          <div class="wh-flags">
+            <div class="wh-flag issue">✗ No SLA tracking in WMS</div>
+            <div class="wh-flag warn">⚠ Shift-change data gaps</div>
+            <div class="wh-flag warn">⚠ Dock receiving backlog</div>
+          </div>
+          <div class="wh-ai-insight">Largest site, lowest SLA score. Root cause: no systematic SLA tracking in WMS — misses go undetected until client escalation. Implementing automated SLA alerts estimated to recover 15–18 pts of compliance within 60 days.</div>
+        </div>
+      </div>
+
+      <!-- SITE B2 -->
+      <div class="wh-card">
+        <div class="wh-card-header">
+          <div>
+            <div class="wh-name">Memphis Distribution Center</div>
+            <div class="wh-vendor">Vendor B · Site B2 · 195,000 sq ft</div>
+          </div>
+          <div class="wh-score red">59</div>
+        </div>
+        <div class="wh-card-body">
+          <div class="wh-metrics">
+            <div class="wh-metric"><div class="wh-metric-label">Inv. Accuracy</div><div class="wh-metric-val red">92.4%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">SLA Compliance</div><div class="wh-metric-val red">68.1%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">Order Accuracy</div><div class="wh-metric-val red">95.1%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">Dock-to-Stock</div><div class="wh-metric-val red">47 hrs</div></div>
+          </div>
+          <div class="wh-flags">
+            <div class="wh-flag issue">✗ SOPs not being followed</div>
+            <div class="wh-flag issue">✗ Returns backlog: 400+ units</div>
+            <div class="wh-flag warn">⚠ High turnover — training gap</div>
+          </div>
+          <div class="wh-ai-insight">Lowest scoring site. AI analysis shows inventory errors correlating strongly with high-turnover periods — a training and onboarding problem, not a systems problem. Dock-to-stock nearly at breach. Immediate intervention required.</div>
+        </div>
+      </div>
+
+      <!-- SITE B3 -->
+      <div class="wh-card">
+        <div class="wh-card-header">
+          <div>
+            <div class="wh-name">Atlanta Fulfillment Center</div>
+            <div class="wh-vendor">Vendor B · Site B3 · 220,000 sq ft</div>
+          </div>
+          <div class="wh-score yellow">65</div>
+        </div>
+        <div class="wh-card-body">
+          <div class="wh-metrics">
+            <div class="wh-metric"><div class="wh-metric-label">Inv. Accuracy</div><div class="wh-metric-val yellow">94.1%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">SLA Compliance</div><div class="wh-metric-val red">70.9%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">Order Accuracy</div><div class="wh-metric-val yellow">96.0%</div></div>
+            <div class="wh-metric"><div class="wh-metric-label">Dock-to-Stock</div><div class="wh-metric-val yellow">41 hrs</div></div>
+          </div>
+          <div class="wh-flags">
+            <div class="wh-flag issue">✗ Manual pick — no scan verify</div>
+            <div class="wh-flag warn">⚠ WMS data integrity issues</div>
+            <div class="wh-flag warn">⚠ SLA reporting gap</div>
+          </div>
+          <div class="wh-ai-insight">Manual pick processes are the primary driver of accuracy gaps here. No barcode scan verification at pack station. AI flagged 6 WMS data integrity issues including location code mismatches causing mis-picks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ DATA QUALITY ══════════════════════════════ -->
+  <div id="tab-data" class="tab-panel">
+    <div class="section-label">Data Quality Assessment</div>
+    <h2 class="section-title">What the data actually looks like — and what AI found.</h2>
+    <p class="section-sub">One of the most common problems in 3PL performance work is that the data you receive isn't reliable. AI processing identified, flagged, and cleaned anomalies before any analysis was run — ensuring findings are based on verified data, not noise.</p>
+
+    <div class="dq-grid">
+      <div class="dq-card">
+        <div class="dq-label">Records Ingested</div>
+        <div class="dq-value" style="color:var(--accent);">84,219</div>
+        <div class="dq-desc">Total data records collected across 5 sites, 2 WMS systems, and 6-month transaction history.</div>
+        <div class="dq-bar"><div class="dq-fill" style="width:100%"></div></div>
+      </div>
+      <div class="dq-card">
+        <div class="dq-label">Integrity Issues Flagged</div>
+        <div class="dq-value" style="color:var(--red);">14</div>
+        <div class="dq-desc">AI-detected anomalies including duplicate records, location mismatches, phantom inventory, and timestamp errors.</div>
+        <div class="dq-bar"><div class="dq-fill danger" style="width:24%"></div></div>
+      </div>
+      <div class="dq-card">
+        <div class="dq-label">Data Cleaned &amp; Normalized</div>
+        <div class="dq-value" style="color:var(--yellow);">68%</div>
+        <div class="dq-desc">Percentage of Vendor B data requiring normalization before analysis could be run. Vendor A: 31%.</div>
+        <div class="dq-bar"><div class="dq-fill warn" style="width:68%"></div></div>
+      </div>
+      <div class="dq-card">
+        <div class="dq-label">Anomalous SLA Patterns</div>
+        <div class="dq-value" style="color:var(--red);">3</div>
+        <div class="dq-desc">Patterns identified where SLA data appeared to be manually overridden or not captured systematically.</div>
+        <div class="dq-bar"><div class="dq-fill danger" style="width:18%"></div></div>
+      </div>
+      <div class="dq-card">
+        <div class="dq-label">Cross-Vendor Data Gaps</div>
+        <div class="dq-value" style="color:var(--yellow);">9</div>
+        <div class="dq-desc">Fields that Vendor B could not provide equivalents for — limiting direct comparison on 9 of 22 KPIs.</div>
+        <div class="dq-bar"><div class="dq-fill warn" style="width:41%"></div></div>
+      </div>
+      <div class="dq-card">
+        <div class="dq-label">Confidence Score — Final Data</div>
+        <div class="dq-value" style="color:var(--accent);">91%</div>
+        <div class="dq-desc">Post-cleaning data confidence. All findings in this report are based on the cleaned, validated dataset.</div>
+        <div class="dq-bar"><div class="dq-fill" style="width:91%"></div></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Data Quality by Site</div>
+        <div class="chart-wrap"><canvas id="dqChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Issue Type Breakdown</div>
+        <div class="chart-wrap" style="height:240px;display:flex;align-items:center;justify-content:center;"><canvas id="issueChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="card-dark" style="margin-top:0;">
+      <div class="card-title-light">Why This Matters</div>
+      <p style="font-size:0.88rem;color:rgba(240,235,227,0.7);line-height:1.8;max-width:860px;">Most inventory assessments are built on raw WMS exports — data that hasn't been validated, normalized, or cross-checked. That means the findings are only as good as the underlying data, which in Vendor B's case is unreliable 32% of the time. <strong style="color:#fdfcfa;">AI processing compresses what used to take days of manual cleanup into hours</strong> — and more importantly, it catches errors that a human analyst would likely miss. The 14 integrity issues flagged here would have distorted every metric in the report if left uncleaned.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ FINDINGS ══════════════════════════════ -->
+  <div id="tab-findings" class="tab-panel">
+    <div class="section-label">Findings &amp; Recommendations</div>
+    <h2 class="section-title">10 prioritized findings. Clear next steps.</h2>
+    <p class="section-sub">Ranked by P&amp;L impact and implementation speed. Each finding includes the root cause, affected site(s), and a specific recommendation with estimated recovery value.</p>
+
+    <div class="findings-list">
+      <div class="finding">
+        <div class="finding-priority critical">Critical</div>
+        <div class="finding-content">
+          <div class="finding-title">Vendor B has no systematic SLA tracking — misses go undetected until client escalation</div>
+          <div class="finding-desc">All three Vendor B sites lack automated SLA monitoring in their WMS. SLA compliance is tracked manually (or not at all) — meaning misses compound before anyone knows they're happening. This is the single largest P&amp;L risk in the assessment.</div>
+          <div class="finding-meta">
+            <div class="finding-tag">Sites: B1, B2, B3</div>
+            <div class="finding-tag">Est. Exposure: $210K/yr</div>
+            <div class="finding-tag">Fix: WMS SLA module + daily reporting</div>
+            <div class="finding-tag">Timeline: 30 days</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-priority critical">Critical</div>
+        <div class="finding-content">
+          <div class="finding-title">Memphis (B2) dock-to-stock approaching SLA breach — immediate staffing review needed</div>
+          <div class="finding-desc">At 47 hours average, Site B2 is 1 hour from breaching the standard 48-hour dock-to-stock SLA. During peak days, it already exceeds 52 hours. Root cause is a combination of receiving staff turnover and no cross-training protocol.</div>
+          <div class="finding-meta">
+            <div class="finding-tag">Site: B2</div>
+            <div class="finding-tag">Est. Exposure: $65K/yr</div>
+            <div class="finding-tag">Fix: Cross-train 4 staff + receiving SOP refresh</div>
+            <div class="finding-tag">Timeline: 2 weeks</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-priority high">High</div>
+        <div class="finding-content">
+          <div class="finding-title">14 WMS data integrity issues are distorting inventory records across all 5 sites</div>
+          <div class="finding-desc">AI processing identified duplicate SKU records, phantom inventory entries, and location code mismatches. Left uncorrected, these cause mis-picks, inaccurate cycle counts, and financial reporting errors. Vendor B accounts for 10 of the 14 issues.</div>
+          <div class="finding-meta">
+            <div class="finding-tag">Sites: All 5</div>
+            <div class="finding-tag">Est. Exposure: $88K/yr</div>
+            <div class="finding-tag">Fix: Data cleanup + WMS audit protocol</div>
+            <div class="finding-tag">Timeline: 3–4 weeks</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-priority high">High</div>
+        <div class="finding-content">
+          <div class="finding-title">SOP adherence at 54% at Vendor B — SOPs exist but are not being followed</div>
+          <div class="finding-desc">Site visits confirmed that Vendor B has documented SOPs, but floor observation and data patterns show significant deviation — particularly at B2 and B3. This is a management and reinforcement failure, not a documentation gap.</div>
+          <div class="finding-meta">
+            <div class="finding-tag">Sites: B2, B3</div>
+            <div class="finding-tag">Est. Exposure: $52K/yr</div>
+            <div class="finding-tag">Fix: SOP retraining + floor audit cadence</div>
+            <div class="finding-tag">Timeline: 45 days</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-priority high">High</div>
+        <div class="finding-content">
+          <div class="finding-title">Vendor A's Denver SOP model is replicable — and should be standardized across all sites</div>
+          <div class="finding-desc">Site A1 (Denver) demonstrates best-practice inventory control processes that directly explain its 99.1% accuracy rate. This model is fully documented and transferable. Applying it to the four underperforming sites is the highest-ROI recommendation in this report.</div>
+          <div class="finding-meta">
+            <div class="finding-tag">Sites: A2, B1, B2, B3</div>
+            <div class="finding-tag">Est. Recovery: $180K/yr</div>
+            <div class="finding-tag">Fix: Cross-site SOP adoption program</div>
+            <div class="finding-tag">Timeline: 60–90 days</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-priority medium">Medium</div>
+        <div class="finding-content">
+          <div class="finding-title">Atlanta (B3) is running manual pick processes with no scan verification at pack station</div>
+          <div class="finding-desc">The absence of barcode scan verification at the pack station is the primary driver of B3's 96.0% order accuracy — well below the 99.5% benchmark. A simple scan-to-verify implementation would close most of this gap.</div>
+          <div class="finding-meta">
+            <div class="finding-tag">Site: B3</div>
+            <div class="finding-tag">Est. Recovery: $40K/yr</div>
+            <div class="finding-tag">Fix: Scan-verify at pack + WMS integration</div>
+            <div class="finding-tag">Timeline: 30 days</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="finding-priority medium">Medium</div>
+        <div class="finding-content">
+          <div class="finding-title">Chicago (A2) has 4 duplicate SKU records creating phantom inventory in the WMS</div>
+          <div class="finding-desc">AI analysis identified four SKUs with duplicate records — one active, one legacy — causing inventory to appear higher than physical count. This explains intermittent accuracy dips at A2 and creates issues in financial reconciliation.</div>
+          <div class="finding-meta">
+            <div class="finding-tag">Site: A2</div>
+            <div class="finding-tag">Est. Exposure: $22K/yr</div>
+            <div class="finding-tag">Fix: WMS SKU deduplication + audit process</div>
+            <div class="finding-tag">Timeline: 1 week</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ PROCESS MAP ══════════════════════════════ -->
+  <div id="tab-process" class="tab-panel">
+    <div class="section-label">AI-Enhanced Assessment Process</div>
+    <h2 class="section-title">How this assessment was built — and why it's different.</h2>
+    <p class="section-sub">Traditional 3PL assessments rely on manual data collection, spreadsheet analysis, and consultant intuition. This framework integrates AI processing at every stage — compressing timelines, improving data accuracy, and surfacing insights that manual analysis would miss.</p>
+
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-title">Assessment Delivery Framework — 5 Phase Process</div>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-num">Phase 01</div>
+          <div class="step-title">Assessment Design</div>
+          <div class="step-desc">Define KPI framework, data requirements, site visit protocol, and SLA benchmarks.</div>
+          <div class="step-ai">AI: Auto-generates data request templates matched to vendor WMS types</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">Phase 02</div>
+          <div class="step-title">Data Collection</div>
+          <div class="step-desc">On-site visits + WMS data exports + SLA records + SOP documentation review.</div>
+          <div class="step-ai">AI: Ingests &amp; normalizes multi-format exports in real time during site visit</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">Phase 03</div>
+          <div class="step-title">AI Processing</div>
+          <div class="step-desc">Data cleaning, integrity flagging, cross-validation, anomaly detection, and normalization.</div>
+          <div class="step-ai">AI: 84K records processed, 14 issues flagged, data confidence score generated</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">Phase 04</div>
+          <div class="step-title">Analysis &amp; Modeling</div>
+          <div class="step-desc">Vendor comparison, site scoring, P&amp;L impact modeling, and recommendation prioritization.</div>
+          <div class="step-ai">AI: Predictive gap modeling + ROI projections for each finding</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">Phase 05</div>
+          <div class="step-title">Deliverable Package</div>
+          <div class="step-desc">Interactive dashboard + executive summary + site-level reports + implementation roadmap.</div>
+          <div class="step-ai">AI: Auto-populates findings into structured deliverable — this document</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card-dark">
+        <div class="card-title-light">Why AI Changes This</div>
+        <div style="display:flex;flex-direction:column;gap:14px;margin-top:4px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:28px;height:28px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.7rem;font-weight:700;color:#fff;margin-top:2px;">1</div>
+            <div>
+              <div style="font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:700;color:#fdfcfa;margin-bottom:4px;">Speed</div>
+              <div style="font-size:0.8rem;color:rgba(240,235,227,0.6);line-height:1.6;">Data processing that used to take 2–3 days of manual work is completed in hours. Findings are delivered faster and act on fresher data.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:28px;height:28px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.7rem;font-weight:700;color:#fff;margin-top:2px;">2</div>
+            <div>
+              <div style="font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:700;color:#fdfcfa;margin-bottom:4px;">Accuracy</div>
+              <div style="font-size:0.8rem;color:rgba(240,235,227,0.6);line-height:1.6;">AI catches data integrity issues that manual analysis misses — duplicate records, timestamp errors, phantom inventory. Findings are built on clean data.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:28px;height:28px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.7rem;font-weight:700;color:#fff;margin-top:2px;">3</div>
+            <div>
+              <div style="font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:700;color:#fdfcfa;margin-bottom:4px;">Depth</div>
+              <div style="font-size:0.8rem;color:rgba(240,235,227,0.6);line-height:1.6;">Pattern recognition across 84K records identifies correlations a human analyst working a spreadsheet would never surface — like the link between turnover spikes and accuracy drops at B2.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:28px;height:28px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.7rem;font-weight:700;color:#fff;margin-top:2px;">4</div>
+            <div>
+              <div style="font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:700;color:#fdfcfa;margin-bottom:4px;">Deliverable Quality</div>
+              <div style="font-size:0.8rem;color:rgba(240,235,227,0.6);line-height:1.6;">The interactive deliverable you're reading is itself an AI-assisted output — the kind of professional package that used to require a design team and weeks of formatting work.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Traditional vs. AI-Enhanced Assessment</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
+          <div style="display:grid;grid-template-columns:120px 1fr 1fr;gap:0;font-family:'Montserrat',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);padding:0 0 6px 0;border-bottom:1px solid var(--border);">
+            <div></div><div style="text-align:center;">Traditional</div><div style="text-align:center;color:var(--accent);">AI-Enhanced</div>
+          </div>
+          <div style="display:grid;grid-template-columns:120px 1fr 1fr;gap:0;font-size:0.82rem;padding:8px 0;border-bottom:1px solid var(--border);">
+            <div style="font-weight:600;color:var(--text-secondary);">Data processing</div>
+            <div style="text-align:center;color:var(--text-muted);">3–5 days</div>
+            <div style="text-align:center;color:var(--accent);font-weight:700;">4–6 hours</div>
+          </div>
+          <div style="display:grid;grid-template-columns:120px 1fr 1fr;gap:0;font-size:0.82rem;padding:8px 0;border-bottom:1px solid var(--border);">
+            <div style="font-weight:600;color:var(--text-secondary);">Data errors caught</div>
+            <div style="text-align:center;color:var(--text-muted);">~40%</div>
+            <div style="text-align:center;color:var(--accent);font-weight:700;">~95%</div>
+          </div>
+          <div style="display:grid;grid-template-columns:120px 1fr 1fr;gap:0;font-size:0.82rem;padding:8px 0;border-bottom:1px solid var(--border);">
+            <div style="font-weight:600;color:var(--text-secondary);">Total delivery</div>
+            <div style="text-align:center;color:var(--text-muted);">8–12 weeks</div>
+            <div style="text-align:center;color:var(--accent);font-weight:700;">4–5 weeks</div>
+          </div>
+          <div style="display:grid;grid-template-columns:120px 1fr 1fr;gap:0;font-size:0.82rem;padding:8px 0;border-bottom:1px solid var(--border);">
+            <div style="font-weight:600;color:var(--text-secondary);">Patterns detected</div>
+            <div style="text-align:center;color:var(--text-muted);">Manual only</div>
+            <div style="text-align:center;color:var(--accent);font-weight:700;">84K records</div>
+          </div>
+          <div style="display:grid;grid-template-columns:120px 1fr 1fr;gap:0;font-size:0.82rem;padding:8px 0;">
+            <div style="font-weight:600;color:var(--text-secondary);">Deliverable</div>
+            <div style="text-align:center;color:var(--text-muted);">Static PDF</div>
+            <div style="text-align:center;color:var(--accent);font-weight:700;">Interactive</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div style="text-align:center;padding:32px 0 0;">
+      <div class="section-label" style="text-align:center;">Ready to Start?</div>
+      <h2 style="font-family:'Montserrat',sans-serif;font-size:1.6rem;font-weight:900;color:var(--text-primary);margin-bottom:12px;letter-spacing:-0.01em;">This is what Monarch gets. Flat rate. Fast delivery.</h2>
+      <p style="color:var(--text-secondary);font-size:0.92rem;max-width:560px;margin:0 auto 24px;line-height:1.8;">Two vendors. Five locations. AI-enhanced analysis. Executive-ready deliverable. Actionable findings ranked by P&amp;L impact.</p>
+      <div style="display:inline-flex;align-items:center;gap:16px;background:var(--bg-dark);border:1px solid rgba(93,174,130,0.2);border-radius:4px;padding:20px 32px;">
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(240,235,227,0.4);margin-bottom:4px;">Flat Fee</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:2.2rem;font-weight:900;color:#fdfcfa;">$27,500</div>
+        </div>
+        <div style="width:1px;height:48px;background:rgba(93,174,130,0.2);"></div>
+        <div style="font-size:0.82rem;color:rgba(240,235,227,0.55);line-height:1.8;max-width:320px;">Full assessment. 120 hours. Deliverable package includes interactive dashboard, executive brief, site-level findings, and implementation roadmap.</div>
+      </div>
+      <div style="margin-top:20px;">
+        <a href="mailto:mike@altus-kc.com" style="display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;padding:14px 28px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;border-radius:3px;">
+          mike@altus-kc.com → Let's Talk
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="page-footer">
+  <div class="footer-logo">ALTUS <span>KC</span></div>
+  <div class="footer-text">Prepared by Altus KC LLC · mike@altus-kc.com · 913.449.3371 · altus-kc.com<br/>This is a sample deliverable demonstrating the quality and format of a completed 3PL Performance Assessment.</div>
+  <div class="footer-contact">mike@altus-kc.com<br/>913.449.3371</div>
+</div>
+
+<script>
+// ─── TABS ───
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+  // Re-init charts if needed
+  setTimeout(initCharts, 50);
+}
+
+// ─── CHARTS ───
+let chartsInit = false;
+function initCharts() {
+  if (chartsInit) return;
+  chartsInit = true;
+
+  const accent = '#3d8c62';
+  const accentLight = '#5dae82';
+  const red = '#c0392b';
+  const yellow = '#d4880a';
+  const textMuted = '#8a9690';
+  const border = 'rgba(27,46,38,0.08)';
+
+  Chart.defaults.font.family = "'DM Sans', sans-serif";
+  Chart.defaults.color = textMuted;
+
+  // RADAR
+  const radarCtx = document.getElementById('radarChart');
+  if (radarCtx) {
+    new Chart(radarCtx, {
+      type: 'radar',
+      data: {
+        labels: ['Inv. Accuracy', 'SLA Compliance', 'Order Accuracy', 'Dock-to-Stock', 'SOP Adherence', 'Data Quality'],
+        datasets: [
+          {
+            label: 'Vendor A',
+            data: [98.7, 91.4, 98.2, 85, 82, 79],
+            borderColor: accent,
+            backgroundColor: 'rgba(61,140,98,0.1)',
+            borderWidth: 2,
+            pointBackgroundColor: accent,
+          },
+          {
+            label: 'Vendor B',
+            data: [94.1, 71.0, 96.0, 62, 54, 57],
+            borderColor: red,
+            backgroundColor: 'rgba(192,57,43,0.08)',
+            borderWidth: 2,
+            pointBackgroundColor: red,
+          },
+          {
+            label: 'Benchmark',
+            data: [99.5, 98, 99.5, 90, 95, 95],
+            borderColor: 'rgba(27,46,38,0.2)',
+            backgroundColor: 'transparent',
+            borderWidth: 1.5,
+            borderDash: [4, 4],
+            pointRadius: 0,
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: { r: { beginAtZero: false, min: 40, max: 100, ticks: { stepSize: 20, font: { size: 10 } }, grid: { color: border } } },
+        plugins: { legend: { position: 'bottom', labels: { padding: 16, font: { size: 11 } } } }
+      }
+    });
+  }
+
+  // BAR
+  const barCtx = document.getElementById('barChart');
+  if (barCtx) {
+    new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Denver (A1)', 'Chicago (A2)', 'Dallas (B1)', 'Memphis (B2)', 'Atlanta (B3)'],
+        datasets: [{
+          label: 'Overall Score',
+          data: [84, 72, 68, 59, 65],
+          backgroundColor: [accentLight, yellow, yellow, red, red],
+          borderRadius: 3,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          y: { min: 0, max: 100, grid: { color: border }, ticks: { callback: v => v + '/100' } },
+          x: { grid: { display: false } }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => 'Score: ' + ctx.raw + '/100' } }
+        }
+      }
+    });
+  }
+
+  // TREND
+  const trendCtx = document.getElementById('trendChart');
+  if (trendCtx) {
+    new Chart(trendCtx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [
+          {
+            label: 'Vendor A',
+            data: [74, 75, 77, 76, 78, 78],
+            borderColor: accent, backgroundColor: 'rgba(61,140,98,0.06)',
+            tension: 0.4, fill: true, borderWidth: 2, pointRadius: 4, pointBackgroundColor: accent
+          },
+          {
+            label: 'Vendor B',
+            data: [70, 67, 65, 63, 64, 64],
+            borderColor: red, backgroundColor: 'rgba(192,57,43,0.04)',
+            tension: 0.4, fill: true, borderWidth: 2, pointRadius: 4, pointBackgroundColor: red
+          },
+          {
+            label: 'Target',
+            data: [85, 85, 85, 85, 85, 85],
+            borderColor: 'rgba(27,46,38,0.2)', borderDash: [6, 4],
+            borderWidth: 1.5, pointRadius: 0, fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          y: { min: 50, max: 100, grid: { color: border } },
+          x: { grid: { display: false } }
+        },
+        plugins: { legend: { position: 'bottom', labels: { padding: 16, font: { size: 11 } } } }
+      }
+    });
+  }
+
+  // DQ CHART
+  const dqCtx = document.getElementById('dqChart');
+  if (dqCtx) {
+    new Chart(dqCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Denver (A1)', 'Chicago (A2)', 'Dallas (B1)', 'Memphis (B2)', 'Atlanta (B3)'],
+        datasets: [{
+          label: 'Data Quality Score',
+          data: [88, 79, 64, 52, 57],
+          backgroundColor: [accentLight, yellow, yellow, red, red],
+          borderRadius: 3,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          y: { min: 0, max: 100, grid: { color: border }, ticks: { callback: v => v + '%' } },
+          x: { grid: { display: false } }
+        },
+        plugins: { legend: { display: false } }
+      }
+    });
+  }
+
+  // ISSUE PIE
+  const issueCtx = document.getElementById('issueChart');
+  if (issueCtx) {
+    new Chart(issueCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Duplicate Records', 'Location Mismatches', 'Phantom Inventory', 'Timestamp Errors', 'SLA Overrides'],
+        datasets: [{
+          data: [4, 3, 3, 2, 2],
+          backgroundColor: [red, yellow, 'rgba(61,140,98,0.7)', 'rgba(27,46,38,0.4)', 'rgba(192,57,43,0.4)'],
+          borderWidth: 2,
+          borderColor: '#fdfcfa'
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right', labels: { padding: 14, font: { size: 11 }, boxWidth: 12 } }
+        }
+      }
+    });
+  }
+}
+
+// Init charts on load
+document.addEventListener('DOMContentLoaded', () => setTimeout(initCharts, 100));
+</script>
+</body>
+</html>
