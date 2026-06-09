@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="popup.css" />
+  <title>Altus KC Vault</title>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="logo">ALTUS<span>KC</span></span>
+      <span class="tag">Vault</span>
+    </div>
+    <button id="openOptions" class="icon-btn" title="Settings">⚙</button>
+  </header>
+
+  <main>
+    <section id="initial-view" class="view">
+      <p class="hint">Capture the company and any named contacts on the current page.</p>
+      <button id="extractBtn" class="primary">Extract from page</button>
+      <p id="initialError" class="error hidden"></p>
+    </section>
+
+    <section id="loading-view" class="view hidden">
+      <div class="spinner"></div>
+      <p class="hint" id="loadingLabel">Reading page…</p>
+    </section>
+
+    <section id="form-view" class="view hidden">
+      <h2>Company</h2>
+      <label>Name<input id="c_name" type="text" /></label>
+      <label>Website<input id="c_website" type="url" /></label>
+      <label>Industry<input id="c_industry" type="text" /></label>
+      <label>Description<textarea id="c_description" rows="2"></textarea></label>
+      <label>Location<input id="c_location" type="text" /></label>
+      <label>Phone<input id="c_phone" type="text" /></label>
+
+      <div class="contacts-header">
+        <h2>Contacts</h2>
+        <button id="addContact" class="ghost">+ Add</button>
+      </div>
+      <div id="contactsList"></div>
+
+      <p id="formError" class="error hidden"></p>
+      <div class="actions">
+        <button id="cancelBtn" class="ghost">Cancel</button>
+        <button id="saveBtn" class="primary">Save to vault</button>
+      </div>
+    </section>
+
+    <section id="success-view" class="view hidden">
+      <div class="success-icon">✓</div>
+      <p id="successMessage">Saved to vault.</p>
+      <button id="doneBtn" class="primary">Done</button>
+    </section>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>

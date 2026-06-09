@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Altus KC Vault",
+  "version": "0.1.0",
+  "description": "Capture companies and contacts from any website into the Altus KC Notion vault.",
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Save to Altus KC Vault",
+    "default_icon": {
+      "16": "icons/icon.svg",
+      "48": "icons/icon.svg",
+      "128": "icons/icon.svg"
+    }
+  },
+  "icons": {
+    "16": "icons/icon.svg",
+    "48": "icons/icon.svg",
+    "128": "icons/icon.svg"
+  },
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "options_page": "options/options.html",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": [
+    "https://api.anthropic.com/*",
+    "https://api.notion.com/*"
+  ]
+}
